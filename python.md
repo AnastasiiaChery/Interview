@@ -1512,5 +1512,1039 @@ class Right(Base):
 ```
 
 
+# Troubleshooting in Python
+
+## Типи профайлерів: статичні та динамічні
+
+Серйозна розробка програмного забезпечення вимагає оптимізації продуктивності.
+Коли ви починаєте оптимізувати продуктивність застосунку, неможливо уникнути використання профайлерів.
+
+Вони застосовуються як для:
+
+* моніторингу production-серверів
+* відстеження частоти та тривалості викликів методів
+
+---
+
+## Модуль trace
+
+Модуль `trace` дозволяє виконувати кілька корисних дій.
+
+### Code coverage
+
+Побачити, які рядки коду виконуються:
+
+```bash
+python3 -m trace --count trace_example/main.py
+```
+
+### Зв’язки між функціями
+
+```bash
+python3 -m trace --listfuncs trace_example/main.py | grep -v importlib
+```
+
+### Відстеження викликів
+
+```bash
+python3 -m trace --listfuncs --trackcalls trace_example/main.py | grep -v importlib
+```
+
+Якщо ви тільки починаєте працювати з трасуванням, варто почати з `trace`.
+
+---
+
+## Модуль faulthandler
+
+`faulthandler` використовується для:
+
+* виведення traceback при помилках
+* дампу traceback після timeout
+* обробки користувацьких сигналів
+
+Він добре працює разом із системними fault-handler’ами (наприклад, Apport або Windows fault handler).
+
+Разом модулі `trace` і `faulthandler` допомагають налагоджувати Python-код.
+
+---
+
+## APM-інструменти
+
+Application Performance Monitoring (APM) інструменти.
+
+Приклад:
+
+* Datadog (production-моніторинг)
+
+---
+
+## Яку частину коду профілювати?
+
+Профілювання — це аналіз продуктивності для пошуку **bottleneck-ів**.
+
+Часто профілюють:
+
+* методи або функції
+* окремі рядки коду
+* використання пам’яті
+
+---
+
+## Які метрики вимірювати?
+
+* швидкість (час)
+* кількість викликів
+* використання пам’яті
+
+---
+
+## Профілювання функцій і рядків
+
+У Python 3 доступні модулі:
+
+* `cProfile`
+* `profile`
+* `pstats`
+
+Приклад:
+
+```python
+import cProfile
+import re
+
+cProfile.run('re.compile("foo|bar")')
+```
+
+```
+197 function calls (192 primitive calls) in 0.002 seconds
+```
+
+---
+
+## Memory profiling
+
+Профілювання пам’яті допомагає:
+
+* знаходити memory leaks
+* оптимізувати використання пам’яті
+
+Рекомендовані бібліотеки:
+
+* pympler
+* objgraph
+
+```python
+from pympler import classtracker
+
+tr = classtracker.ClassTracker()
+tr.track_class(Document)
+tr.create_snapshot()
+
+create_documents()
+
+tr.create_snapshot()
+tr.stats.print_summary()
+```
+
+---
+
+## Deterministic vs Statistical profiling
+
+Профілювання потребує моніторингу виконання програми.
+
+Є два підходи:
+
+### Deterministic profiling
+
+Відстежує всі виклики функцій і події винятків.
+Точніший, але має більший overhead.
+
+Приклад:
+
+```
+cProfile
+```
+
+### Statistical profiling
+
+Використовує sampling.
+Менший overhead, але нижча точність.
+
+---
+
+## pyinstrument
+
+`pyinstrument` — open-source профайлер зі **statistical profiling**.
+
+Він підкреслює, що deterministic profiling може:
+
+* уповільнювати програму
+* викривляти результати
+
+Особливо якщо:
+
+> "code that makes a lot of Python function calls invokes the profiler a lot, making it slower."
+
+---
+
+## resource module
+
+Модуль `resource` дозволяє вимірювати системні ресурси, використані програмою.
+
+```python
+from resource import *
+import time
+
+time.sleep(3)
+print(getrusage(RUSAGE_SELF))
+
+for i in range(10 ** 8):
+   _ = 1 + 1
+
+print(getrusage(RUSAGE_SELF))
+```
+
+---
+
+# Context managers
+
+Контекстні менеджери допомагають керувати зовнішніми ресурсами.
+
+`with` автоматично виконує:
+
+* setup
+* teardown
+
+---
+
+## Контекстний менеджер через клас
+
+```python
+class WritableFile:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def __enter__(self):
+        self.file_obj = open(self.file_path, mode="w")
+        return self.file_obj
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.file_obj:
+            self.file_obj.close()
+```
+
+---
+
+## contextlib decorator
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def writable_file(file_path):
+    file = open(file_path, mode="w")
+    try:
+        yield file
+    finally:
+        file.close()
+
+with writable_file("hello.txt") as file:
+    file.write("Hello, World!")
+```
+
+---
+
+## Async context manager example
+
+```python
+# site_checker_v1.py
+import aiohttp
+import asyncio
+
+async def check(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            print(f"{url}: status -> {response.status}")
+            html = await response.text()
+            print(f"{url}: type -> {html[:17].strip()}")
+
+async def main():
+    await asyncio.gather(
+        check("https://realpython.com"),
+        check("https://pycoders.com"),
+    )
+
+asyncio.run(main())
+```
+
+
+````md
+# Модульне тестування в Python
+
+## Mock-об’єкти
+
+Mock-об’єкт підміняє та імітує реальний об’єкт у середовищі тестування. Це універсальний і потужний інструмент для підвищення якості ваших тестів.
+
+Одна з причин використовувати mock-об’єкти в Python — це контроль поведінки коду під час тестування.
+
+Наприклад, якщо ваш код робить HTTP-запити до зовнішніх сервісів, то тести виконуються передбачувано лише настільки, наскільки ці сервіси поводяться очікувано. Іноді тимчасова зміна поведінки таких зовнішніх сервісів може спричиняти періодичні збої у вашому наборі тестів.
+
+```python
+>>> from unittest.mock import Mock
+>>> mock = Mock()
+>>> mock
+<Mock id='4561344720'>
+````
+
+Mock повинен імітувати будь-який об’єкт, який він замінює. Для досягнення такої гнучкості він створює свої атрибути під час звернення до них.
+
+```python
+>>> from unittest.mock import Mock
+
+>>> # Створення mock-об’єкта
+... json = Mock()
+
+>>> json.loads('{"key": "value"}')
+<Mock name='mock.loads()' id='4550144184'>
+
+>>> # Ви знаєте, що викликали loads(), тому можете
+>>> # зробити перевірки (assertions)
+... json.loads.assert_called()
+>>> json.loads.assert_called_once()
+>>> json.loads.assert_called_with('{"key": "value"}')
+>>> json.loads.assert_called_once_with('{"key": "value"}')
+```
+
+```python
+datetime = Mock()
+datetime.datetime.today.return_value = "tuesday"
+
+requests = Mock()
+requests.get.side_effect = Timeout
+```
+
+```python
+@patch('my_calendar.requests')
+def test_get_holidays_timeout(self, mock_requests):
+    mock_requests.get.side_effect = Timeout
+```
+
+або
+
+```python
+with patch('my_calendar.requests') as mock_requests:
+    mock_requests.get.side_effect = Timeout
+```
+
+Також існують `MagicMock` і `AsyncMock`.
+
+---
+
+## Coverage
+
+Coverage.py — один із найпопулярніших інструментів для вимірювання покриття коду в Python. Він використовує інструменти аналізу коду та механізми трасування зі стандартної бібліотеки Python для вимірювання покриття. Працює з основними версіями CPython, PyPy, Jython та IronPython. Coverage.py можна використовувати як з `unittest`, так і з `pytest`.
+
+---
+
+## Фреймворки тестування: pytest, unittest, doctest
+
+Примітка: оригінальний проєкт **nose** більше не підтримується (останній реліз у 2015 році). **nose2** існує, але також не розвивається активно. **pytest** наразі є фактичним стандартом для тестування Python.
+
+---
+
+## pytest (Рекомендовано)
+
+```python
+# test_example.py
+def test_addition():
+    assert 1 + 1 == 2
+
+def test_string():
+    assert "hello".upper() == "HELLO"
+```
+
+```bash
+pytest test_example.py -v
+```
+
+### Основні можливості pytest
+
+* Простий `assert` (без спеціальних методів перевірки)
+* Потужні fixtures для setup/teardown
+* Параметризовані тести
+* Розвинена екосистема плагінів
+* Кращий вивід і налагодження
+
+---
+
+## unittest (Стандартна бібліотека)
+
+Вбудований у Python, використовує патерн xUnit:
+
+```python
+import unittest
+
+class TestExample(unittest.TestCase):
+    def test_addition(self):
+        self.assertEqual(1 + 1, 2)
+```
+
+---
+
+## doctest
+
+Модуль `doctest` шукає фрагменти тексту, які виглядають як інтерактивні сесії Python, а потім виконує їх, щоб перевірити, що вони працюють саме так, як показано.
+
+Поширені способи використання `doctest`:
+
+* Перевірка актуальності docstring-прикладів у модулі
+* Регресійне тестування інтерактивних прикладів
+* Написання навчальної документації з прикладами введення-виведення
+
+Залежно від того, що підкреслюється — приклади чи пояснювальний текст — це може нагадувати **literate testing** або **виконувану документацію**.
+
+```bash
+python example.py -v
+```
+
+```
+```
+
+
+````md
+# Керування пам’яттю в Python
+
+## 3 покоління GC
+
+Основний алгоритм збирання сміття, який використовується в CPython, — це **підрахунок посилань (reference counting)**. Основна ідея полягає в тому, що CPython підраховує, скільки різних місць мають посилання на об’єкт. Таким місцем може бути інший об’єкт, глобальна (або статична) C-змінна або локальна змінна в деякій C-функції.
+
+Коли лічильник посилань об’єкта стає рівним нулю, об’єкт звільняється з пам’яті. Якщо він містить посилання на інші об’єкти, їхні лічильники посилань зменшуються. Ці об’єкти також можуть бути звільнені, якщо їхній лічильник стане рівним нулю, і так далі.
+
+Поле лічильника посилань можна перевірити за допомогою функції `sys.getrefcount` (зверніть увагу, що значення, яке повертається, завжди на 1 більше, оскільки сама функція також має посилання на об’єкт під час виклику):
+
+```python
+x = object()
+sys.getrefcount(x)
+2
+y = x
+sys.getrefcount(x)
+3
+del y
+sys.getrefcount(x)
+2
+````
+
+---
+
+## Проблема циклічних посилань
+
+Основна проблема схеми підрахунку посилань полягає в тому, що вона **не обробляє циклічні посилання**. Наприклад:
+
+```python
+container = []
+container.append(container)
+sys.getrefcount(container)
+3
+del container
+```
+
+У цьому прикладі `container` містить посилання на самого себе, тому навіть після видалення змінної `container` лічильник посилань не стає нулем. Об’єкт не буде очищений простим підрахунком посилань.
+
+З цієї причини потрібен додатковий механізм для очищення циклічних посилань між об’єктами, коли вони стають недосяжними. Це **циклічний збирач сміття**, який зазвичай називають **Garbage Collector (GC)**, хоча підрахунок посилань також є формою збирання сміття.
+
+---
+
+## Покоління GC
+
+Щоб обмежити час кожного проходу GC, використовується оптимізація — **покоління (generations)**.
+
+Ідея полягає в припущенні, що більшість об’єктів мають короткий життєвий цикл і можуть бути зібрані невдовзі після створення. Це відповідає реальності багатьох Python-програм, де тимчасові об’єкти створюються і знищуються дуже швидко.
+
+Чим старіший об’єкт, тим менша ймовірність, що він стане недосяжним.
+
+Усі **container-об’єкти** поділяються на **три покоління**:
+
+* **generation 0** — нові об’єкти
+* **generation 1**
+* **generation 2**
+
+Кожен новий об’єкт починає в **generation 0**.
+Якщо об’єкт переживає збірку свого покоління, він переміщується до наступного покоління, де перевіряється рідше.
+
+---
+
+## Пороги GC
+
+Покоління збираються, коли кількість об’єктів досягає певного порогу. Ці пороги можна перевірити:
+
+```python
+import gc
+gc.get_threshold()
+(700, 10, 10)
+```
+
+```python
+import gc
+gc.get_count()
+(596, 2, 1)
+```
+
+---
+
+## Ручний запуск GC
+
+Процес збирання сміття можна запустити вручну:
+
+```python
+gc.collect()
+```
+
+Приклад:
+
+```python
+import gc
+
+class MyObj:
+    pass
+
+gc.collect()
+0
+
+x = MyObj()
+x.self = x
+
+gc.get_objects(generation=0)
+[..., <__main__.MyObj object at 0x7fbcc12a3400>, ...]
+
+gc.collect(generation=0)
+0
+gc.get_objects(generation=0)
+[]
+gc.get_objects(generation=1)
+[..., <__main__.MyObj object at 0x7fbcc12a3400>, ...]
+```
+
+---
+
+## Відстеження об’єктів
+
+Модуль GC надає функцію:
+
+```python
+gc.is_tracked(obj)
+```
+
+Вона повертає статус відстеження об’єкта.
+
+---
+
+## Які об’єкти відстежуються?
+
+Загальне правило:
+
+* екземпляри **атомарних типів** не відстежуються
+* екземпляри **неатомарних типів** (контейнери, користувацькі об’єкти) відстежуються
+
+Деякі оптимізації:
+
+* кортежі з незмінних об’єктів не відстежуються
+* словники з незмінних об’єктів не відстежуються
+
+---
+
+## Рекомендації щодо використання GC
+
+Загальне правило:
+**не змінюйте поведінку garbage collector без необхідності.**
+
+---
+
+## Витоки пам’яті
+
+Python-програми, як і програми іншими мовами, можуть мати **витоки пам’яті (memory leaks)**.
+
+Витоки пам’яті в Python виникають, якщо garbage collector не очищає невикористані або недосяжні дані.
+
+Розробники Python додали механізми автоматичного звільнення пам’яті, але деякі невикористані об’єкти все ще можуть залишатися в пам’яті, що призводить до витоків.
+
+```
+```
+
+
+````md
+# Threading і multiprocessing у Python
+
+## GIL (визначення, алгоритми в 2.x і 3.x)
+
+**GIL (Global Interpreter Lock)** — це механізм, який використовується інтерпретатором CPython для гарантування того, що **лише один потік виконує Python-байткод одночасно**.
+
+Це спрощує реалізацію CPython, роблячи модель об’єктів (включно з критичними вбудованими типами, такими як `dict`) неявно безпечною для конкурентного доступу. Блокування всього інтерпретатора полегшує підтримку багатопотоковості, але зменшує рівень паралелізму на багатоядерних системах.
+
+Деякі модулі-розширення (стандартні або сторонні) можуть **звільняти GIL** під час виконання обчислювально-інтенсивних задач, таких як стиснення або хешування. Також GIL завжди звільняється під час **операцій введення/виведення (I/O)**.
+
+Спроби створити «вільно-потоковий» інтерпретатор (з блокуванням даних на більш дрібному рівні) не були успішними, оскільки продуктивність у типовому однопроцесорному випадку погіршувалася.
+
+---
+
+## Перемикання потоків
+
+```python
+import sys
+
+sys.getswitchinterval()
+0.005  # 5 мс — інтервал між перемиканнями потоків
+
+sys.setswitchinterval(0.01)
+````
+
+Примітка:
+
+* `sys.getcheckinterval()` і `sys.setcheckinterval()` були видалені у Python 3.2
+* Python 2.x використовував перемикання за кількістю інструкцій
+* Python 3.x використовує **часовий інтервал (за замовчуванням 5 мс)**
+
+Раніше CPU-bound потік часто повторно захоплював GIL раніше за інші потоки.
+Цю проблему було виправлено у Python 3.2 (Antoine Pitrou), додавши механізм врахування запитів інших потоків.
+
+---
+
+## Threads
+
+(модулі `thread`, `threading`; клас `Queue`; locks)
+
+### Простий приклад
+
+```python
+from time import sleep, perf_counter
+from threading import Thread
+
+def task():
+    print('Starting a task...')
+    sleep(1)
+    print('done')
+
+start_time = perf_counter()
+
+t1 = Thread(target=task)
+t2 = Thread(target=task)
+
+t1.start()
+t2.start()
+
+t1.join()
+t2.join()
+
+end_time = perf_counter()
+
+print(f'It took {end_time- start_time: 0.2f} second(s) to complete.')
+```
+
+---
+
+### ThreadPoolExecutor
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+from time import sleep
+
+def cube(x):
+    result = x * x * x
+    print(f'Куб числа {x}: {result}')
+    return result
+
+if __name__ == '__main__':
+    values = [3, 4, 5, 6]
+
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        results = list(executor.map(cube, values))
+
+    print("\nРезультати:")
+    for value, result in zip(values, results):
+        print(f"Куб числа {value}: {result}")
+```
+
+---
+
+## queue.Queue
+
+Операції:
+
+* `maxsize` — максимальна кількість елементів
+* `empty()` — перевірка, чи черга порожня
+* `full()` — перевірка, чи черга заповнена
+* `get()` — отримати елемент (з блокуванням)
+* `get_nowait()` — отримати елемент без блокування
+* `put(item)` — додати елемент
+* `put_nowait(item)` — додати без блокування
+* `qsize()` — кількість елементів
+
+---
+
+# Processes (multiprocessing)
+
+`multiprocessing`, `Process`, `Queue`, `Pipe`, `Value`, `Array`, `Pool`, `Manager`
+
+## Простий приклад
+
+```python
+from multiprocessing import Process
+import time
+
+def fun():
+    print('starting fun')
+    time.sleep(2)
+    print('finishing fun')
+
+def main():
+    p = Process(target=fun)
+    p.start()
+    p.join()
+
+if __name__ == '__main__':
+    print('starting main')
+    main()
+    print('finishing main')
+```
+
+---
+
+## Pool
+
+```python
+import time
+from timeit import default_timer as timer
+from multiprocessing import Pool, cpu_count
+
+def square(n):
+    time.sleep(2)
+    return n * n
+
+def main():
+    start = timer()
+    print(f'starting computations on {cpu_count()} cores')
+    values = (2, 4, 6, 8)
+
+    with Pool() as pool:
+        res = pool.map(square, values)
+        print(res)
+
+    end = timer()
+    print(f'elapsed time: {end - start}')
+
+if __name__ == '__main__':
+    main()
+```
+
+---
+
+## pipes
+
+Модуль `pipes` надає інтерфейс до shell-pipeline.
+Він визначає клас для абстракції конвеєра — послідовності перетворень файлів.
+
+---
+
+# Як обійти обмеження GIL (C extensions)
+
+## Лише C-потоки
+
+```c
+#include "Python.h"
+
+PyObject *pyfunc(PyObject *self, PyObject *args)
+{
+    Py_BEGIN_ALLOW_THREADS
+
+    /* Threaded C code (без Python API) */
+
+    Py_END_ALLOW_THREADS
+
+    return result;
+}
+```
+
+---
+
+## Змішування C і Python
+
+Примітка:
+
+* `PyEval_InitThreads()` застаріла з Python 3.9
+* видалена у Python 3.13
+* з Python 3.7 GIL ініціалізується автоматично
+
+У сучасному Python достатньо використовувати:
+
+```c
+Py_BEGIN_ALLOW_THREADS
+Py_END_ALLOW_THREADS
+```
+
+```
+```
+
+
+````md
+# Розповсюдження і документація в Python
+
+## distutils, setup.py
+
+`distutils` було видалено у Python 3.12. Він був застарілим з Python 3.10 і остаточно видалений. Див. **PEP 632** для деталей.
+
+Більшість користувачів Python не використовують цей модуль безпосередньо, а застосовують інструменти Python Packaging Authority.  
+Найважливіший із них — **setuptools**, розширена альтернатива distutils, що надає:
+
+- підтримку оголошення залежностей проєкту
+- механізми визначення файлів для source-релізів
+- інтеграцію з системами контролю версій
+- підтримку **entry points** (плагін-системи)
+- автоматичне створення Windows CLI-виконуваних файлів під час інсталяції
+
+Setuptools — це стабільна бібліотека з повним функціоналом для пакування Python-проєктів.
+
+---
+
+## Мінімальна конфігурація setuptools
+
+### pyproject.toml
+```toml
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+````
+
+Далі потрібен `setup.cfg` або `setup.py`.
+
+```python
+from setuptools import setup
+
+setup(
+    name='mypackage',
+    version='0.0.1',
+    packages=['mypackage'],
+    install_requires=[
+        'requests',
+        'importlib; python_version == "2.6"',
+    ],
+)
+```
+
+Структура проєкту:
+
+```
+~/mypackage/
+    pyproject.toml
+    setup.cfg
+    mypackage/__init__.py
+```
+
+```bash
+python -m build
+```
+
+---
+
+## Публікація коду
+
+[https://packaging.python.org/en/latest/tutorials/packaging-projects/](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+
+```
+packaging_tutorial/
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── setup.cfg
+├── src/
+│   └── example_package/
+│       ├── __init__.py
+│       └── example.py
+└── tests/
+```
+
+---
+
+# Автогенерація документації
+
+Інструменти:
+
+* sphinx
+* pydoc
+* autosummary
+* autodoc
+* pdoc
+* pdoc3
+* pydoctor
+* Doxygen (+ Graphviz)
+
+### autosummary
+
+розширення Sphinx для автоматичного створення summary-документації.
+
+### autodoc
+
+обробляє docstring-и reST.
+
+### pdoc
+
+простий генератор API-документації.
+
+### PyDoc
+
+браузер документації зі стандартної бібліотеки.
+
+### Doxygen
+
+генерує HTML, PDF, LaTeX-документацію і діаграми.
+
+---
+
+# Взаємодія Python і C
+
+## Python C API
+
+### Проста C-функція
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+    FILE *fp = fopen("write.txt", "w");
+    fputs("Real Python!", fp);
+    fclose(fp);
+    return 1;
+}
+```
+
+---
+
+## Python-сумісна версія
+
+```c
+#include <Python.h>
+
+static PyObject *method_fputs(PyObject *self, PyObject *args) {
+    char *str, *filename = NULL;
+    int bytes_copied = -1;
+
+    if(!PyArg_ParseTuple(args, "ss", &str, &filename)) {
+        return NULL;
+    }
+
+    FILE *fp = fopen(filename, "w");
+    bytes_copied = fputs(str, fp);
+    fclose(fp);
+
+    return PyLong_FromLong(bytes_copied);
+}
+```
+
+---
+
+## Побудова через setuptools
+
+### pyproject.toml
+
+```toml
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fputs"
+version = "1.0.0"
+
+[tool.setuptools]
+ext-modules = [
+    {name = "fputs", sources = ["fputsmodule.c"]}
+]
+```
+
+### setup.py
+
+```python
+from setuptools import setup, Extension
+
+setup(
+    name="fputs",
+    version="1.0.0",
+    ext_modules=[Extension("fputs", ["fputsmodule.c"])]
+)
+```
+
+```bash
+pip install build
+python -m build
+pip install dist/*.whl
+```
+
+---
+
+## Приклад використання
+
+```python
+import fputs
+fputs.fputs("Real Python!", "write.txt")
+```
+
+---
+
+# Інструменти інтеграції C і Python
+
+## cffi
+
+[https://cffi.readthedocs.io/en/latest/](https://cffi.readthedocs.io/en/latest/)
+
+```python
+from cffi import FFI
+ffibuilder = FFI()
+
+ffibuilder.cdef("""
+    float pi_approx(int n);
+""")
+```
+
+---
+
+## SWIG
+
+[http://www.swig.org/exec.html](http://www.swig.org/exec.html)
+
+Інтерфейс-компілятор для C/C++ і Python.
+
+---
+
+## SIP
+
+[https://www.riverbankcomputing.com/static/Docs/sip/examples.html](https://www.riverbankcomputing.com/static/Docs/sip/examples.html)
+
+Інструменти для створення Python-binding-ів для C/C++.
+
+---
+
+## Boost.Python
+
+```cpp
+#include <boost/python.hpp>
+
+BOOST_PYTHON_MODULE(hello_ext)
+{
+    using namespace boost::python;
+    def("greet", greet);
+}
+```
+
+Python:
+
+```python
+import hello_ext
+print(hello_ext.greet())
+```
+
+```
+```
+
+
 
 
