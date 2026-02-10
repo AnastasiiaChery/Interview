@@ -104,6 +104,29 @@ class Solution:
             
 
 
+"""
+(189. Rotate Array)
+Дано масив цілих чисел nums. Потрібно зсунути масив вправо на k кроків, де k — невід’ємне число.
+
+Елементи, які “виходять” за правий край масиву, повинні переноситися на початок.
+
+Приклад 1
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+
+Приклад 2
+Input: nums = [-1,-100,3,99], k = 2
+Output: [3,99,-1,-100]
+"""
+
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k %= n
+        nums[:] = nums[-k:] + nums[:-k]
 
 
 
