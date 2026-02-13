@@ -218,7 +218,7 @@ class Solution:
 
 
 """
-
+(66. Plus One)
 Вам дано велике ціле число, представлене у вигляді масиву цілих чисел digits, де digits[i] — це i-та цифра числа.
 Цифри розташовані від найстаршого розряду до наймолодшого зліва направо.
 Велике число не містить початкових нулів.
@@ -247,6 +247,40 @@ class Solution:
         return [1] + digits
 
 
+
+"""
+(283. Move Zeroes)
+Move Zeroes
+Условие:
+Дан массив nums. Нужно переместить все нули в конец массива сохранив порядок ненулевых элементов.
+Решение должно быть in-place (без создания копии массива).
+Идея решения:
+Используем два указателя.
+insert_pos — позиция, куда записываем следующий ненулевой элемент.
+
+Алгоритм:
+1. Проходим по массиву.
+2. Если элемент != 0 → записываем его в nums[insert_pos].
+3. Увеличиваем insert_pos.
+4. После прохода заполняем оставшиеся элементы нулями.
+
+"""
+
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        insert_pos = 0
+
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[insert_pos] = nums[i]
+                insert_pos += 1
+
+        for i in range(insert_pos, len(nums)):
+            nums[i] = 0
 
 
 
