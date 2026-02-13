@@ -283,6 +283,42 @@ class Solution:
             nums[i] = 0
 
 
+"""
+Two Sum
+Дано масив цілих чисел nums і ціле число target.
+Поверніть індекси двох чисел так, щоб їх сума дорівнювала target.
+Можна вважати, що для кожного вхідного набору даних існує рівно один розв’язок, і не можна використовувати один і той самий елемент двічі.
+Відповідь можна повернути в будь-якому порядку.
+
+Приклад:
+Вхід:
+nums = [2, 7, 11, 15], target = 9
+Вихід:
+[0, 1]
+"""
+
+
+class Solution:
+    def twoSum(self, nums, target):
+        seen = {}
+
+        for i, num in enumerate(nums):
+            complement = target - num
+
+            if complement in seen:
+                return [seen[complement], i]
+
+            seen[num] = i
+
+
+"""
+
+"""
+
+
+
+
+
 
 
 
