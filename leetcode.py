@@ -284,7 +284,7 @@ class Solution:
 
 
 """
-Two Sum
+(1. Two Sum)
 Дано масив цілих чисел nums і ціле число target.
 Поверніть індекси двох чисел так, щоб їх сума дорівнювала target.
 Можна вважати, що для кожного вхідного набору даних існує рівно один розв’язок, і не можна використовувати один і той самий елемент двічі.
@@ -312,10 +312,101 @@ class Solution:
 
 
 """
+(36. Valid Sudoku)
+
+Визначте, чи є коректною дошка **Sudoku 9 × 9**.
+Перевіряти потрібно **лише заповнені клітинки** відповідно до таких правил:
+
+Кожен **рядок** має містити цифри **1–9 без повторень**.
+Кожен **стовпець** має містити цифри **1–9 без повторень**.
+Кожен із **дев’яти підквадратів 3 × 3** має містити цифри **1–9 без повторень**.
+
+---
+Примітка:**
+Дошка Sudoku (частково заповнена) може бути коректною, але не обов’язково розв’язуваною.
+Перевіряти потрібно лише заповнені клітинки відповідно до наведених правил.
 
 """
 
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        rows = [set() for _ in range(9)]
+        cols = [set() for _ in range(9)]
+        boxes = [set() for _ in range(9)]
 
+        for r in range(9):
+            for c in range(9):
+                value = board[r][c]
+
+                if value == ".":
+                    continue
+
+                box_index = (r // 3) * 3 + (c // 3)
+
+                if value in rows[r]:
+                    return False
+                if value in cols[c]:
+                    return False
+                if value in boxes[box_index]:
+                    return False
+
+                rows[r].add(value)
+                cols[c].add(value)
+                boxes[box_index].add(value)
+
+        return True
+
+
+"""
+(48. Rotate Image)
+
+Дано квадратну двовимірну матрицю **n × n**, що представляє зображення.
+Потрібно **повернути зображення на 90° за годинниковою стрілкою**.
+
+Поворот потрібно виконати **in-place**, тобто змінити **вхідну матрицю без створення нової**.
+
+**Не можна створювати іншу 2D-матрицю для повороту.**
+
+---
+
+### Приклад
+
+**Вхід:**
+
+```
+matrix = [
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+]
+```
+
+**Вихід:**
+
+```
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+]
+```
+
+"""
+
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n = len(matrix)
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        for row in matrix:
+            row.reverse()
 
 
 
