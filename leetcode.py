@@ -1,8 +1,7 @@
 
-
 """
 REMOVE DUPLICATES FROM SORTED ARRAY
-(26. Remove Duplicates from Sorted Array)
+(26. Remove Duplicates from Sorted Array) +
 
 Задача:
 Дано відсортований у неспадному порядку масив цілих чисел nums.
@@ -56,7 +55,7 @@ def removeDuplicates(nums):
 
 
 """
-(122. Best Time to Buy and Sell Stock II)
+(122. Best Time to Buy and Sell Stock II)  +
 Дано масив цілих чисел prices, де prices[i] — це ціна акції в i-й день.
 
 Кожного дня ви можете вирішити купити і/або продати акцію.
@@ -105,7 +104,7 @@ class Solution:
 
 
 """
-(189. Rotate Array)
+(189. Rotate Array)  doublecheck
 Дано масив цілих чисел nums. Потрібно зсунути масив вправо на k кроків, де k — невід’ємне число.
 
 Елементи, які “виходять” за правий край масиву, повинні переноситися на початок.
@@ -131,7 +130,7 @@ class Solution:
 
 
 """
-(217. Contains Duplicate)
+(217. Contains Duplicate)   doublecheck
 Дано цілий масив nums. Поверніть True, якщо будь-яке значення з’являється в масиві щонайменше двічі, і поверніть Fals якщо всі елементи є різними.
 
  Приклад 1:
@@ -160,7 +159,7 @@ class Solution:
 
 
 """
-(136. Single Number)
+(136. Single Number)   doublecheck
 Дано непорожній масив цілих чисел nums, у якому кожен елемент з’являється двічі, окрім одного. Знайдіть цей єдиний елемент.
 Потрібно реалізувати розв’язок із лінійною складністю часу та використовувати лише сталий обсяг додаткової пам’яті.
 
