@@ -93,3 +93,378 @@ Examples:
 These applications are part of Google Workspace and are consumed directly as services.
 
 
+## Google Cloud Global Infrastructure
+
+Google Cloud runs on Google’s own global network — one of the largest and most advanced networks in the world. Google has invested billions of dollars over many years to build infrastructure designed for:
+
+- High throughput  
+- Low latency  
+- Global reliability  
+
+The network includes more than 100 content caching nodes worldwide. These nodes store frequently accessed content closer to users, allowing applications to respond from the nearest location and reduce response time.
+
+---
+
+## Global Geographic Coverage
+
+Google Cloud infrastructure spans seven major geographic areas:
+
+- North America  
+- South America  
+- Europe  
+- Africa  
+- Middle East  
+- Asia  
+- Australia  
+
+This global presence ensures services can be delivered reliably to users anywhere in the world.
+
+---
+
+## Regions and Zones
+
+Google Cloud infrastructure is organized into **regions** and **zones**.
+
+### Regions
+- Independent geographic areas.
+- Each region contains multiple zones.
+- Example: London (`europe-west2`) is a region with three zones.
+
+### Zones
+- A deployment area for Google Cloud resources.
+- When launching a virtual machine (e.g., using Compute Engine), you specify a zone.
+- Zones provide resource redundancy within a region.
+
+---
+
+## Why Location Matters
+
+Choosing where to deploy resources affects:
+
+- **Availability** – system uptime.
+- **Durability** – data protection.
+- **Latency** – time it takes for data to travel from source to destination.
+
+Deploying resources in multiple regions helps:
+- Reduce latency for global users.
+- Protect against regional failures (e.g., natural disasters).
+
+---
+
+## Multi-Region Services
+
+Some services support **multi-region** configurations.
+
+Example:
+- Spanner multi-region setups replicate data:
+  - Across multiple zones  
+  - Across multiple regions  
+
+This allows:
+- Low-latency reads from different geographic areas.
+- Higher resilience and fault tolerance.
+
+The number of regions and zones continues to grow as Google expands its global infrastructure.
+
+## Sustainability and Google Cloud Infrastructure
+
+Although cloud computing operates in a virtual environment, it relies on physical infrastructure. Data centers worldwide consume approximately **2% of global electricity**, making energy efficiency critically important.
+
+Google works continuously to make its data centers as efficient and environmentally responsible as possible. Running workloads on Google Cloud can also help customers meet their own sustainability goals.
+
+---
+
+## Environmental Certifications
+
+Google’s data centers were the first to achieve **ISO 14001 certification**, an international standard for environmental management systems.  
+
+ISO 14001 provides a framework for:
+- Improving resource efficiency  
+- Reducing waste  
+- Enhancing overall environmental performance  
+
+---
+
+## Example: Hamina Data Center (Finland)
+
+One example of Google’s innovation is its data center in **Hamina, Finland**.
+
+Key features:
+- One of the most advanced and efficient facilities in Google’s fleet  
+- Uses seawater from the Bay of Finland for cooling  
+- First cooling system of its kind  
+- Significantly reduces energy consumption  
+
+---
+
+## Google’s Climate Commitments
+
+- Became the first major company to achieve **carbon neutrality**  
+- Achieved **100% renewable energy usage**  
+- Goal: operate completely **carbon-free by 2030**
+
+Google’s sustainability strategy demonstrates that large-scale cloud infrastructure can grow while reducing environmental impact.
+
+
+## Google Cloud Security Architecture
+
+Google’s infrastructure is built with **security by design** at every layer. Since many Google services each serve over one billion users, protecting data is a top priority.
+
+Google Cloud security can be understood as a set of layered protections:
+
+---
+
+## 1. Hardware Infrastructure Layer
+
+### Hardware Design and Provenance
+- Custom-designed server boards and networking equipment.
+- Custom security chips deployed on servers and peripherals.
+
+### Secure Boot Stack
+- Cryptographic signatures verify:
+  - BIOS
+  - Bootloader
+  - Kernel
+  - Base OS image  
+- Ensures servers boot only trusted software.
+
+### Physical (Premises) Security
+- Google designs and builds its own data centers.
+- Multiple physical security layers.
+- Very limited employee access.
+- Additional Google-controlled protections in third-party data centers.
+
+---
+
+## 2. Service Deployment Layer
+
+### Encryption of Inter-Service Communication
+- Services communicate using Remote Procedure Calls (RPC).
+- All inter–data center RPC traffic is encrypted by default.
+- Hardware cryptographic accelerators extend encryption within data centers.
+
+---
+
+## 3. User Identity Layer
+
+- Central Google identity service (Google login).
+- Risk-based authentication challenges.
+- Support for multi-factor authentication.
+- Use of Universal 2nd Factor (U2F) security keys.
+
+---
+
+## 4. Storage Services Layer
+
+### Encryption at Rest
+- Data is encrypted at the storage service layer.
+- Centrally managed encryption keys.
+- Hardware encryption on HDDs and SSDs.
+
+---
+
+## 5. Internet Communication Layer
+
+### Google Front End (GFE)
+- Terminates all TLS connections.
+- Uses public-private key pairs and X.509 certificates from trusted Certificate Authorities.
+- Supports best practices such as Perfect Forward Secrecy.
+
+### Denial of Service (DoS) Protection
+- Global infrastructure scale helps absorb attacks.
+- Multi-layered DoS protections.
+- Services behind GFE are shielded from large-scale attacks.
+
+---
+
+## 6. Operational Security Layer
+
+### Intrusion Detection
+- Automated rules and machine intelligence.
+- Red Team exercises to test defenses.
+
+### Reducing Insider Risk
+- Strict access controls.
+- Active monitoring of administrative actions.
+
+### Mandatory U2F for Employees
+- Required security keys to prevent phishing attacks.
+
+### Secure Software Development
+- Central source control.
+- Mandatory two-party code review.
+- Secure coding libraries to prevent common vulnerabilities.
+- Vulnerability Rewards Program for external security researchers.
+
+---
+
+## Summary
+
+Google Cloud security is based on a **defense-in-depth model**, combining:
+
+- Physical security  
+- Hardware and software integrity  
+- Encryption in transit and at rest  
+- Identity protection  
+- DDoS defense  
+- Operational monitoring and secure development practices  
+
+This layered approach ensures strong protection of customer data and services.
+
+
+## Avoiding Vendor Lock-In in Google Cloud
+
+Some organizations hesitate to move to the cloud because they fear **vendor lock-in** — becoming dependent on a single provider.
+
+Google addresses this concern by promoting **openness, portability, and interoperability**, allowing customers to run their applications beyond Google Cloud if needed.
+
+---
+
+## Open Source Commitment
+
+Google publishes key technologies under open source licenses to build broad ecosystems.
+
+Example:
+
+- **TensorFlow** — an open source machine learning library originally developed at Google.  
+  It supports a large global ecosystem and can run on multiple platforms, not just Google Cloud.
+
+This open approach ensures customers are not restricted to one environment.
+
+---
+
+## Interoperability Across Clouds
+
+Google supports flexibility at multiple layers of the technology stack:
+
+### Kubernetes and Google Kubernetes Engine (GKE)
+- Enable deployment of containerized microservices.
+- Workloads can run across different cloud providers.
+- Support hybrid and multi-cloud architectures.
+
+### Google Cloud Observability
+- Allows monitoring of workloads across multiple cloud environments.
+- Provides visibility beyond just Google Cloud infrastructure.
+
+---
+
+## Key Takeaway
+
+Google Cloud reduces vendor lock-in by:
+
+- Supporting open source technologies  
+- Enabling multi-cloud and hybrid deployments  
+- Providing cross-platform monitoring tools  
+
+This gives customers flexibility and long-term strategic freedom.
+
+
+## Google Cloud Pricing and Cost Management
+
+Google Cloud offers flexible and transparent pricing designed to help customers control costs and optimize usage.
+
+---
+
+## Per-Second Billing
+
+Google was the first major cloud provider to introduce **per-second billing** for its Infrastructure as a Service (IaaS) offering, **Compute Engine**.
+
+Per-second billing is also available for:
+
+- Google Kubernetes Engine (GKE)  
+- Dataproc  
+- App Engine flexible environment VMs  
+
+This ensures customers only pay for the exact time resources are used.
+
+---
+
+## Sustained-Use Discounts
+
+Compute Engine provides **automatic sustained-use discounts**:
+
+- Applied automatically when a VM runs more than 25% of the billing month.
+- Discounts increase incrementally based on usage time.
+- No upfront commitment required.
+
+---
+
+## Custom Machine Types
+
+Compute Engine allows creation of **custom VM types**:
+
+- Tailor vCPU and memory to application needs.
+- Avoid overprovisioning.
+- Optimize pricing for specific workloads.
+
+---
+
+## Pricing Calculator
+
+Google Cloud provides an online pricing calculator to estimate projected costs based on selected services and configurations.
+
+---
+
+## Budgets and Alerts
+
+To prevent unexpected charges:
+
+### Budgets
+- Can be set at the billing account or project level.
+- Can be:
+  - A fixed amount  
+  - A percentage of previous spending  
+
+### Alerts
+- Trigger notifications when spending approaches the budget.
+- Common thresholds: 50%, 90%, and 100%.
+- Custom alert percentages are also supported.
+
+Example:  
+If the budget is $20,000 and an alert is set at 90%, a notification is sent at $18,000.
+
+---
+
+## Reports
+
+The **Reports** tool in the Google Cloud Console:
+
+- Provides visual cost analysis.
+- Allows monitoring by project or service.
+- Helps track and optimize spending.
+
+---
+
+## Quotas
+
+Quotas prevent accidental or malicious overuse of resources.
+
+There are two types:
+
+### 1. Rate Quotas
+- Limit the number of API requests within a time window.
+- Reset after a specified period.
+- Example: GKE allows 3,000 API calls per project every 100 seconds.
+
+### 2. Allocation Quotas
+- Limit the total number of resources in a project.
+- Example: Default limit of 15 Virtual Private Cloud (VPC) networks per project.
+
+Projects start with standard quotas, but some limits can be increased by requesting approval from Google Cloud Support.
+
+---
+
+## Key Takeaway
+
+Google Cloud pricing emphasizes:
+
+- Pay-for-what-you-use billing  
+- Automatic discounts  
+- Flexible configuration  
+- Built-in cost control tools  
+- Resource protection through quotas  
+
+These mechanisms help organizations manage spending efficiently while scaling their workloads.
+
+
+
