@@ -463,6 +463,37 @@ class Solution:
 
 
 
+"""
+Дано рядок s. Знайдіть перший символ, який не повторюється, 
+та поверніть його індекс. Якщо такого символу не існує, поверніть -1.
+
+Приклад 1:
+Вхід: s = "leetcode"
+Вихід: 0
+
+Пояснення:
+Символ 'l' з індексом 0 є першим символом, 
+який не зустрічається в жодній іншій позиції.
+
+Приклад 2:
+Вхід: s = "loveleetcode"
+Вихід: 2
+"""
+
+
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        count = {}
+
+        for char in s:
+            count[char] = count.get(char, 0) + 1
+
+        for i, char in enumerate(s):
+            if count[char] == 1:
+                return i
+
+        return -1
+
 
 
 
