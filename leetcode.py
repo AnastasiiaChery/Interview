@@ -496,4 +496,76 @@ class Solution:
 
 
 
+"""
+Дано два рядки s та t. Поверніть true, якщо рядок t є анаграмою рядка s,
+і false — в іншому випадку.
+
+Анаграмою називається слово або фраза, утворена шляхом перестановки літер іншого слова,
+використовуючи всі літери рівно один раз.
+
+Приклад 1:
+Вхід: s = "anagram", t = "nagaram"
+Вихід: true
+
+Приклад 2:
+Вхід: s = "rat", t = "car"
+Вихід: false
+"""
+
+
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+
+        count = {}
+
+        for i in range(len(s)):
+            count[s[i]] = count.get(s[i], 0) + 1
+            count[t[i]] = count.get(t[i], 0) - 1
+
+        for value in count.values():
+            if value != 0:
+                return False
+
+        return True
+
+
+
+
+"""
+Фраза є паліндромом, якщо після перетворення всіх великих літер на малі 
+та видалення всіх неалфавітно-цифрових символів вона читається однаково 
+зліва направо і справа наліво. 
+
+Алфавітно-цифрові символи включають літери та цифри.
+
+Дано рядок s. Поверніть true, якщо він є паліндромом, 
+і false — в іншому випадку.
+
+Приклад 1:
+Вхід: s = "A man, a plan, a canal: Panama"
+Вихід: true
+
+Пояснення:
+Після обробки отримуємо рядок "amanaplanacanalpanama", 
+який є паліндромом.
+"""
+
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        res = [i.lower() for i in s if i.isalnum()]
+        print(res[::-1])
+        return res == res[::-1]
+
+
+
+
+
+
+
+
+
 
