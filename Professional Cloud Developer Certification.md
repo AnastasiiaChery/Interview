@@ -1054,6 +1054,233 @@ This flexibility allows users to choose the interface that best fits their workf
 
 
 
+## Google Compute Engine and Virtual Networking
+
+In Google Cloud, virtual networking is built around the concept of a **Virtual Private Cloud (VPC)**.
+
+Many users begin by either:
+- Creating their own VPC network, or  
+- Using the default VPC created within their first project.
+
+---
+
+## What Is a VPC?
+
+A **Virtual Private Cloud (VPC)** is a secure, private cloud environment hosted inside a public cloud provider like Google Cloud.
+
+It allows customers to:
+
+- Run applications
+- Store data
+- Host websites
+- Manage infrastructure
+
+While benefiting from:
+- Public cloud scalability
+- Private cloud isolation
+
+VPCs combine the flexibility of public cloud with the security of private infrastructure.
+
+---
+
+## What VPC Networks Do
+
+VPC networks:
+
+- Connect Google Cloud resources to each other
+- Connect resources to the internet
+- Segment networks
+- Apply firewall rules
+- Define static routes for traffic forwarding
+
+---
+
+## Key Feature: Global VPC Networks
+
+Unlike many cloud providers, **Google Cloud VPC networks are global**.
+
+This means:
+
+- One VPC can span multiple regions worldwide.
+- Subnets can be created in any region.
+- Subnets span all zones within a region.
+
+---
+
+## Subnets
+
+A **subnet** is a segmented portion of a VPC network.
+
+Key characteristics:
+
+- Created within a specific region
+- Span all zones in that region
+- Can contain resources in different zones
+- IP address range can be expanded without affecting existing VMs
+
+---
+
+## Example Architecture
+
+Imagine a VPC network called `vpc1` with:
+
+- One subnet in `asia-east1`
+- One subnet in `us-east1`
+- Three Compute Engine VMs attached
+
+If the VMs are on the same subnet:
+- They can be in different zones
+- They behave like neighbors
+- They communicate within a unified network layout
+
+---
+
+## Benefits
+
+This global architecture enables:
+
+- Simple network design
+- Cross-zone communication
+- Cross-region scalability
+- Resilience against zone-level disruptions
+
+Google Cloud’s global VPC model makes it easier to build distributed yet logically unified network architectures.
 
 
+
+## Google Compute Engine (IaaS)
+
+**Compute Engine** is Google Cloud’s Infrastructure as a Service (IaaS) offering.  
+It allows users to create and run virtual machines (VMs) on Google’s global infrastructure.
+
+---
+
+## Key Features
+
+- No upfront investment
+- Thousands of virtual CPUs available
+- High performance and consistent reliability
+- Full operating system functionality per VM
+
+Each VM can be configured like a physical server by choosing:
+
+- CPU power (vCPUs)
+- Memory
+- Storage type and size
+- Operating system
+
+---
+
+## Creating Virtual Machines
+
+VM instances can be created using:
+
+- Google Cloud Console (web interface)
+- Google Cloud CLI (`gcloud`)
+- Compute Engine API
+
+Supported operating systems include:
+
+- Linux images
+- Windows Server images
+- Custom images
+- Other OS builds
+
+VMs can be reconfigured flexibly after deployment.
+
+---
+
+## Cloud Marketplace
+
+Cloud Marketplace offers ready-to-deploy solutions from:
+
+- Google
+- Third-party vendors
+
+Benefits:
+- No manual configuration required
+- Preconfigured software stacks
+- Many images are free (standard infrastructure charges apply)
+- Commercial software may include additional licensing fees
+- Pricing estimates are shown before deployment
+
+---
+
+## Pricing and Billing
+
+### Per-Second Billing
+- Billed per second
+- 1-minute minimum
+- Sustained-use discounts applied automatically
+
+### Sustained-Use Discounts
+- Automatically applied when a VM runs more than 25% of a month
+- Increase with longer usage
+
+### Committed-Use Discounts
+- Up to 57% discount
+- 1-year or 3-year commitment
+- Ideal for stable, predictable workloads
+
+---
+
+## Preemptible and Spot VMs
+
+Designed for fault-tolerant workloads such as:
+
+- Batch processing
+- Large-scale data analysis
+- Jobs that can be stopped and restarted
+
+### Benefits:
+- Up to 90% cost savings
+
+### Preemptible VMs:
+- Can run up to 24 hours
+- May be terminated at any time
+
+### Spot VMs:
+- No maximum runtime
+- Same pricing as Preemptible (currently)
+- More flexible features
+
+Both can be terminated if resources are needed elsewhere.
+
+---
+
+## Storage Performance
+
+- High throughput between VMs and persistent disks
+- No special machine type required
+- No extra cost for baseline high performance
+
+---
+
+## Machine Types
+
+Compute Engine offers:
+
+- Predefined machine types
+- Custom machine types
+
+Custom machine types allow:
+- Selection of exact vCPU count
+- Selection of exact memory size
+- Cost optimization
+- Avoiding overprovisioning
+
+---
+
+## Summary
+
+Compute Engine provides:
+
+- Flexible VM configuration
+- Multiple pricing options
+- Automatic discounts
+- Deep cost optimization tools
+- High-performance infrastructure
+- Support for fault-tolerant workloads
+
+It is a powerful and scalable IaaS solution for running virtual machines in Google Cloud.
 
