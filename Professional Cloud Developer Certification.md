@@ -1284,3 +1284,409 @@ Compute Engine provides:
 
 It is a powerful and scalable IaaS solution for running virtual machines in Google Cloud.
 
+
+
+
+## Autoscaling and Load Balancing in Compute Engine
+
+Compute Engine allows you to choose machine properties such as:
+
+- Number of virtual CPUs (vCPUs)
+- Amount of memory
+- Predefined or custom machine types
+
+To efficiently handle changing workloads, Google Cloud provides **Autoscaling**.
+
+---
+
+## Autoscaling
+
+Autoscaling automatically:
+
+- Adds virtual machines when demand increases
+- Removes virtual machines when demand decreases
+
+Scaling decisions are based on load metrics such as:
+
+- CPU utilization
+- Traffic levels
+- Custom monitoring metrics
+
+This ensures:
+- High availability
+- Performance stability
+- Cost optimization
+
+---
+
+## Load Balancing
+
+To support autoscaling, incoming traffic must be distributed efficiently.
+
+Google Cloud VPC supports multiple types of **load balancing**, which:
+
+- Distribute traffic across multiple VMs
+- Improve reliability
+- Prevent overload on individual instances
+- Increase fault tolerance
+
+Load balancing works together with autoscaling to maintain performance.
+
+---
+
+## Scaling Up vs. Scaling Out
+
+There are two ways to increase capacity:
+
+### Scaling Up
+- Increase VM size (more CPUs and memory)
+- Useful for:
+  - In-memory databases
+  - CPU-intensive analytics
+
+### Scaling Out (Most Common)
+- Add more VM instances
+- Improves redundancy
+- Provides better fault tolerance
+- Preferred by most Google Cloud customers
+
+---
+
+## Machine Families and Limits
+
+The maximum number of CPUs per VM depends on:
+
+- The selected machine family
+- Available quotas (zone-dependent)
+
+Quotas limit how many resources can be used within a region or zone.
+
+---
+
+## Summary
+
+Compute Engine supports:
+
+- Flexible machine type selection
+- Autoscaling based on demand
+- Integrated load balancing
+- Horizontal (scale-out) and vertical (scale-up) scaling
+- Large VM configurations for specialized workloads
+
+These features help applications remain scalable, reliable, and cost-efficient.
+
+
+
+
+## Virtual Private Cloud (VPC) Compatibility Features
+
+### Built-in Routing
+- VPCs automatically include routing tables.
+- No need to provision or manage routers.
+- Routes traffic:
+  - Between instances in the same network
+  - Across subnetworks
+  - Across zones
+- Does not require external IP addresses.
+
+---
+
+### Global Distributed Firewall
+- Built-in firewall included with VPC.
+- No firewall appliance needed.
+- Controls:
+  - Ingress (incoming traffic)
+  - Egress (outgoing traffic)
+
+#### Network Tags
+- Firewall rules can target instances using network tags.
+- Example:
+  - Tag web servers as "WEB"
+  - Allow ports 80 (HTTP) and 443 (HTTPS)
+  - Rule applies to all VMs with the "WEB" tag regardless of IP address.
+
+---
+
+### VPC Peering
+- VPCs belong to individual projects.
+- VPC Peering connects two VPC networks.
+- Enables private traffic exchange.
+- No public internet required.
+
+---
+
+### Shared VPC
+- Allows one project (host project) to share its VPC.
+- Other projects (service projects) use the shared network.
+- IAM controls access and permissions.
+
+---
+
+## Summary
+- Built-in routing
+- Global firewall
+- Network tag-based rules
+- Cross-project connectivity
+- Centralized IAM control
+
+
+## Cloud Load Balancing
+
+### Purpose
+- Distributes user traffic across multiple VM instances.
+- Ensures application availability during autoscaling.
+- Reduces risk of performance issues.
+
+---
+
+### Key Characteristics
+- Fully distributed, software-defined managed service.
+- No need to manage or scale load balancer VMs.
+- Supports:
+  - HTTP / HTTPS
+  - TCP / SSL
+  - UDP
+- Cross-region load balancing.
+- Automatic multi-region failover.
+- No pre-warming required.
+- Reacts quickly to traffic and backend health changes.
+
+---
+
+## Types of Load Balancers
+
+### 1️⃣ Application Load Balancers (Layer 7)
+- Operate at the Application Layer.
+- Handle HTTP and HTTPS traffic.
+- Ideal for web applications.
+- Support:
+  - Content-based routing
+  - SSL/TLS termination
+- Function as reverse proxies.
+- Can be:
+  - External (internet-facing)
+  - Internal
+
+---
+
+### 2️⃣ Network Load Balancers (Layer 4)
+- Operate at the Transport Layer.
+- Handle TCP, UDP, and other IP protocols.
+
+#### a) Proxy Network Load Balancer
+- Acts as a reverse proxy.
+- Terminates client connections.
+- Establishes new connections to backends.
+- Supports hybrid backends (cloud and on-premises).
+- Advanced traffic management.
+
+#### b) Passthrough Network Load Balancer
+- Does NOT terminate connections.
+- Forwards traffic directly to backend.
+- Preserves original source IP address.
+- Suitable for:
+  - Direct server return
+  - Applications needing broader protocol support
+
+---
+
+## Summary
+Cloud Load Balancing:
+- Automatically distributes traffic
+- Supports multiple protocols
+- Works globally
+- Requires no manual scaling
+- Provides Layer 7 and Layer 4 solutions
+
+
+
+## DNS and Content Delivery in Google Cloud
+
+### Public DNS (8.8.8.8)
+- 8.8.8.8 is Google’s public DNS service.
+- Translates domain names into IP addresses.
+- Free and available worldwide.
+- Built on Google’s global DNS infrastructure.
+
+---
+
+## Cloud DNS
+
+- Managed DNS service in Google Cloud.
+- Runs on Google’s infrastructure.
+- Provides:
+  - Low latency
+  - High availability
+  - Global redundancy
+- Cost-effective way to publish applications.
+- DNS records are served from multiple global locations.
+
+### Management Options
+You can manage DNS zones and records using:
+- Google Cloud Console
+- Command-line interface (CLI)
+- API
+
+Supports millions of DNS zones and records.
+
+---
+
+## Cloud CDN (Content Delivery Network)
+
+### What is Edge Caching?
+- Stores content closer to users.
+- Reduces latency.
+- Improves performance.
+
+### Cloud CDN Benefits
+- Faster content delivery.
+- Reduced load on origin servers.
+- Potential cost savings.
+- Uses Google’s global edge network.
+
+### Setup
+- Enabled with a single checkbox after configuring an Application Load Balancer.
+
+---
+
+## CDN Interconnect
+- Supports third-party CDN providers.
+- If you already use another CDN, it may be part of Google Cloud’s CDN Interconnect partner program.
+- Allows continued use of existing CDN solutions.
+
+---
+
+## Summary
+Google Cloud provides:
+- Public DNS (8.8.8.8)
+- Managed Cloud DNS
+- Global edge caching
+- Cloud CDN for faster content delivery
+- Integration with third-party CDNs
+
+
+
+## Connecting Google Cloud VPC to Other Networks
+
+Many organizations need to connect their Google VPC to:
+- On-premises networks
+- Other cloud providers
+
+Google Cloud provides several connectivity options.
+
+---
+
+## 1️⃣ Cloud VPN
+
+- Creates encrypted tunnels over the public internet.
+- Connects on-premises network to Google VPC.
+- Can use **Cloud Router** for dynamic routing (BGP).
+- Automatically updates routes when new subnets are added.
+
+Best when:
+- Private-to-private connectivity is required
+- Internet bandwidth meets business needs
+
+---
+
+## 2️⃣ Direct Peering
+
+- Connect at a Google Point of Presence (PoP).
+- Exchange traffic directly with Google.
+- Requires colocating routing equipment.
+
+Best when:
+- No private IP connectivity needed
+- Higher performance than standard internet is required
+- You can install/manage equipment
+
+⚠️ Not covered by a Google SLA.
+
+---
+
+## 3️⃣ Carrier Peering
+
+- Connect through a supported service provider.
+- No need to colocate equipment.
+- Access Google services via public IPs.
+
+Best when:
+- You prefer working with a partner
+- Installing equipment is not an option
+
+---
+
+## 4️⃣ Dedicated Interconnect
+
+- Private physical connection to Google.
+- High bandwidth and reliability.
+- SLA up to 99.99% (if topology requirements met).
+- Can be backed up with VPN.
+
+Best when:
+- Private, high-performance connectivity required
+- You can colocate equipment in a Google PoP
+
+---
+
+## 5️⃣ Partner Interconnect
+
+- Private connectivity via a service provider.
+- Good alternative if you cannot access a Dedicated Interconnect location.
+- Supports lower bandwidth needs.
+- SLA up to 99.99% (if requirements met).
+
+Note:
+Google is not responsible for third-party provider issues.
+
+---
+
+## 6️⃣ Cross-Cloud Interconnect
+
+- Dedicated physical connection between Google Cloud and another cloud provider.
+- Supports multicloud strategy.
+- Enables private VPC peering across clouds.
+- Available in:
+  - 10 Gbps
+  - 100 Gbps
+
+Benefits:
+- Reduced complexity
+- Site-to-site data transfer
+- Encryption support
+
+---
+
+## How to Choose?
+
+Ask three questions:
+
+1. Do you need private-to-private connectivity?
+2. Does your current internet bandwidth meet requirements?
+3. Can you install/manage routing equipment at a Google PoP?
+
+---
+
+## Quick Decision Guide
+
+- Private + Internet OK → **Cloud VPN**
+- No private needed + Internet OK → **Public IP access**
+- No private needed + Internet not enough → **Peering**
+- Private + High performance + Can install equipment → **Dedicated Interconnect**
+- Private + No equipment installation → **Partner Interconnect**
+- Multicloud dedicated connectivity → **Cross-Cloud Interconnect**
+
+---
+
+## Summary
+
+Google Cloud provides:
+- VPN-based connectivity
+- Public peering options
+- Private interconnect solutions
+- Multicloud connectivity support
+
+Choice depends on performance, security, bandwidth, and operational requirements.
+
+
+
