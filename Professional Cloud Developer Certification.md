@@ -1690,6 +1690,320 @@ Choice depends on performance, security, bandwidth, and operational requirements
 
 
 
+## Google Cloud Storage and Database Solutions
+
+Every application needs a way to store data such as:
+- Media files
+- Application data
+- Sensor data
+- Transaction records
+
+Different workloads require different storage solutions.
+
+Google Cloud provides storage options for:
+- Structured data
+- Unstructured data
+- Transactional data
+- Relational data
+
+---
+
+## Core Google Cloud Storage Products
+
+### 1️⃣ Cloud Storage
+- Object storage service.
+- Ideal for:
+  - Images
+  - Videos
+  - Backups
+  - Static website content
+  - Large unstructured data
+
+---
+
+### 2️⃣ Cloud SQL
+- Managed relational database service.
+- Supports:
+  - MySQL
+  - PostgreSQL
+  - SQL Server
+- Good for traditional applications requiring relational databases.
+
+---
+
+### 3️⃣ Cloud Spanner
+- Globally distributed relational database.
+- Combines:
+  - SQL capabilities
+  - Horizontal scalability
+  - Strong consistency
+- Ideal for large-scale mission-critical applications.
+
+---
+
+### 4️⃣ Firestore
+- NoSQL document database.
+- Designed for:
+  - Mobile apps
+  - Web applications
+- Supports real-time synchronization and offline mode.
+
+---
+
+### 5️⃣ Bigtable
+- Fully managed NoSQL wide-column database.
+- Designed for:
+  - Massive analytical workloads
+  - Large datasets
+  - High-throughput applications
+
+Examples:
+- IoT data
+- Financial data analysis
+- Time-series data
+
+---
+
+## Summary
+
+Google Cloud offers five core storage services:
+
+| Service | Type | Best For |
+|------|------|------|
+| Cloud Storage | Object storage | Unstructured data, media |
+| Cloud SQL | Relational DB | Traditional applications |
+| Spanner | Distributed relational DB | Global scalable systems |
+| Firestore | NoSQL document DB | Web & mobile apps |
+| Bigtable | NoSQL wide-column DB | Big data & analytics |
+
+Applications may use one or several of these services depending on their data requirements.
+
+
+
+## Google Cloud Storage
+
+### What is Cloud Storage?
+Cloud Storage is Google Cloud’s **object storage service** that provides:
+- High durability
+- High availability
+- Unlimited scalability
+
+It is commonly used to store **large binary objects (BLOBs)** such as:
+- Videos
+- Images
+- Audio files
+- Backups
+- Archived data
+
+---
+
+## What is Object Storage?
+
+Object storage stores data as **objects**, not as:
+- File systems (files and folders)
+- Disk blocks
+
+Each object contains:
+
+1. **The data itself** (binary content)
+2. **Metadata**  
+   Examples:
+   - Date created
+   - Author
+   - Resource type
+   - Permissions
+3. **Unique identifier**
+
+Objects are accessed using **URL-based identifiers**, which makes them ideal for **web applications**.
+
+---
+
+## Key Features
+
+### Unlimited Storage
+- Store any amount of data
+- Retrieve data whenever needed
+
+### Fully Managed
+- Google manages scaling and infrastructure
+
+### High Availability and Durability
+
+---
+
+## Common Use Cases
+
+- Website content hosting
+- Backup and disaster recovery
+- Media storage (images, videos)
+- Data processing pipelines
+- Large data distribution to users
+
+---
+
+## Buckets
+
+Objects are stored inside **buckets**.
+
+Bucket requirements:
+- Must have a **globally unique name**
+- Must be assigned a **location**
+
+Bucket location options:
+- Specific region
+- Multi-region (e.g., EU)
+
+Choosing a location close to users helps **reduce latency**.
+
+---
+
+## Object Immutability
+
+Objects in Cloud Storage are **immutable**.
+
+This means:
+- Objects cannot be edited directly
+- A **new version is created** when changes occur
+
+---
+
+## Object Versioning
+
+Versioning can be enabled in a bucket.
+
+### If versioning is OFF
+- New versions **overwrite old ones**
+
+### If versioning is ON
+Cloud Storage keeps previous versions.
+
+You can:
+- View older versions
+- Restore previous versions
+- Permanently delete versions
+
+---
+
+## Access Control
+
+Security is managed using:
+
+### 1️⃣ IAM (recommended)
+Roles are inherited:
+
+
+## Google Cloud Storage
+
+### What is Cloud Storage?
+Cloud Storage is Google Cloud’s **object storage service** that provides:
+- High durability
+- High availability
+- Unlimited scalability
+
+It is commonly used to store **large binary objects (BLOBs)** such as:
+- Videos
+- Images
+- Audio files
+- Backups
+- Archived data
+
+---
+
+## What is Object Storage?
+
+Object storage stores data as **objects**, not as:
+- File systems (files and folders)
+- Disk blocks
+
+Each object contains:
+
+1. **The data itself** (binary content)
+2. **Metadata**  
+   Examples:
+   - Date created
+   - Author
+   - Resource type
+   - Permissions
+3. **Unique identifier**
+
+Objects are accessed using **URL-based identifiers**, which makes them ideal for **web applications**.
+
+---
+
+## Key Features
+
+### Unlimited Storage
+- Store any amount of data
+- Retrieve data whenever needed
+
+### Fully Managed
+- Google manages scaling and infrastructure
+
+### High Availability and Durability
+
+---
+
+## Common Use Cases
+
+- Website content hosting
+- Backup and disaster recovery
+- Media storage (images, videos)
+- Data processing pipelines
+- Large data distribution to users
+
+---
+
+## Buckets
+
+Objects are stored inside **buckets**.
+
+Bucket requirements:
+- Must have a **globally unique name**
+- Must be assigned a **location**
+
+Bucket location options:
+- Specific region
+- Multi-region (e.g., EU)
+
+Choosing a location close to users helps **reduce latency**.
+
+---
+
+## Object Immutability
+
+Objects in Cloud Storage are **immutable**.
+
+This means:
+- Objects cannot be edited directly
+- A **new version is created** when changes occur
+
+---
+
+## Object Versioning
+
+Versioning can be enabled in a bucket.
+
+### If versioning is OFF
+- New versions **overwrite old ones**
+
+### If versioning is ON
+Cloud Storage keeps previous versions.
+
+You can:
+- View older versions
+- Restore previous versions
+- Permanently delete versions
+
+---
+
+## Access Control
+
+Security is managed using:
+
+### 1️⃣ IAM (recommended)
+Roles are inherited:
+
+
 
 
 
