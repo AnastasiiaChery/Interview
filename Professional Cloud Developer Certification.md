@@ -2174,3 +2174,133 @@ Cloud Storage provides:
 - Several data transfer options
 - Tight integration with other Google Cloud services
 
+
+## Google Cloud SQL
+
+### What is Cloud SQL?
+
+Cloud SQL is a **fully managed relational database service** in Google Cloud.
+
+It supports:
+- **MySQL**
+- **PostgreSQL**
+- **SQL Server**
+
+Cloud SQL allows developers to focus on building applications while Google manages the database infrastructure.
+
+---
+
+## Fully Managed Service
+
+Google handles many administrative tasks such as:
+
+- Software installation
+- Database patching
+- System updates
+- Backups
+- Replication configuration
+- Maintenance
+
+This reduces operational overhead for developers and IT teams.
+
+---
+
+## Scalability
+
+Cloud SQL can scale up to:
+
+- **128 CPU cores**
+- **864 GB RAM**
+- **64 TB storage**
+
+This makes it suitable for many production workloads.
+
+---
+
+## Replication Support
+
+Cloud SQL supports several replication scenarios:
+
+- Replication from a **Cloud SQL primary instance**
+- Replication from an **external primary database**
+- Replication from **external MySQL instances**
+
+Replication helps improve:
+- Availability
+- Disaster recovery
+- Performance
+
+---
+
+## Managed Backups
+
+Cloud SQL includes automated backups.
+
+Features:
+- Secure storage of backups
+- Easy restore if needed
+- Instance price includes **7 backups**
+
+---
+
+## Security Features
+
+Cloud SQL provides built-in security mechanisms.
+
+### Encryption
+Customer data is encrypted:
+
+- On Google's internal networks
+- In database tables
+- In temporary files
+- In backups
+
+### Network Firewall
+Each database instance includes a firewall that:
+
+- Controls network access
+- Limits which systems can connect to the database
+
+---
+
+## Integration With Google Cloud Services
+
+Cloud SQL can easily integrate with other Google Cloud services.
+
+Examples:
+
+### App Engine
+Use standard database drivers:
+- **Connector/J** for Java
+- **MySQLdb** for Python
+
+### Compute Engine
+Virtual machines can be authorized to access Cloud SQL instances.
+
+Best practice:
+- Place Cloud SQL in the **same zone** as the VM to reduce latency.
+
+---
+
+## External Tool Support
+
+Cloud SQL works with many common database tools.
+
+Examples:
+- SQL Workbench
+- Toad
+- Other applications using standard MySQL drivers
+
+---
+
+## Summary
+
+Cloud SQL provides:
+
+- Fully managed relational databases
+- Automatic backups and updates
+- Built-in security and encryption
+- High scalability
+- Easy integration with Google Cloud services
+
+It is ideal for **traditional applications that require relational databases**.
