@@ -2005,5 +2005,172 @@ Roles are inherited:
 
 
 
+## Cloud Storage Storage Classes
 
+Cloud Storage provides **four main storage classes**, designed for different access frequencies and cost needs.
+
+---
+
+## 1️⃣ Standard Storage
+Best for **frequently accessed ("hot") data**.
+
+Characteristics:
+- Low latency
+- High performance
+- Ideal for frequently used data
+
+Examples:
+- Websites
+- Streaming media
+- Active application data
+
+---
+
+## 2️⃣ Nearline Storage
+Designed for **infrequently accessed data**.
+
+Access frequency:
+- About **once per month or less**
+
+Examples:
+- Data backups
+- Long-tail multimedia content
+- Archival storage
+
+---
+
+## 3️⃣ Coldline Storage
+Low-cost storage for **rarely accessed data**.
+
+Access frequency:
+- **Once every 90 days or less**
+
+Examples:
+- Disaster recovery backups
+- Long-term data storage
+
+---
+
+## 4️⃣ Archive Storage
+**Lowest-cost storage option**.
+
+Access frequency:
+- **Less than once per year**
+
+Characteristics:
+- Higher retrieval costs
+- Minimum storage duration: **365 days**
+
+Examples:
+- Long-term archives
+- Compliance storage
+- Historical backups
+
+---
+
+## Comparison
+
+| Storage Class | Access Frequency | Cost | Example Use |
+|------|------|------|------|
+| Standard | Frequent | Highest | Websites, apps |
+| Nearline | Monthly | Lower | Backups |
+| Coldline | Every 90 days | Lower | DR storage |
+| Archive | Yearly | Lowest | Long-term archive |
+
+---
+
+## Common Features Across All Classes
+
+All Cloud Storage classes provide:
+
+- Unlimited storage
+- No minimum object size
+- Global accessibility
+- Low latency
+- High durability
+- Unified APIs and tools
+- Security features
+- Geo-redundancy (multi-region / dual-region)
+
+Geo-redundancy means data is stored in **multiple geographic locations** for disaster protection.
+
+---
+
+## Autoclass
+
+Cloud Storage includes **Autoclass**, which automatically moves objects between storage classes.
+
+Behavior:
+- Moves inactive data to **colder storage classes**
+- Moves frequently accessed data to **Standard storage**
+
+Benefits:
+- Reduces storage costs
+- Automatic optimization
+
+---
+
+## Security
+
+Cloud Storage security features include:
+
+- **Server-side encryption by default**
+- Encryption occurs before writing data to disk
+- **HTTPS/TLS encryption** for data in transit
+
+---
+
+## Data Transfer Methods
+
+### 1️⃣ Command Line
+Using **gcloud storage** from the Cloud SDK.
+
+### 2️⃣ Cloud Console
+Drag-and-drop upload via the web interface.
+
+### 3️⃣ Storage Transfer Service
+Used for **large online transfers**.
+
+Can transfer data from:
+- Other cloud providers
+- Different Cloud Storage regions
+- HTTP(S) endpoints
+
+---
+
+## Transfer Appliance
+
+Used for **very large datasets** (terabytes or petabytes).
+
+Process:
+1. Lease the appliance from Google
+2. Load data locally
+3. Ship it to Google
+4. Data uploaded to Cloud Storage
+
+Capacity:
+- Up to **1 PB per appliance**
+
+---
+
+## Integration With Other Google Cloud Services
+
+Cloud Storage integrates with many services including:
+
+- BigQuery (import/export tables)
+- Cloud SQL
+- Firestore backups
+- App Engine logs
+- Compute Engine images and startup scripts
+
+---
+
+## Summary
+
+Cloud Storage provides:
+- Multiple storage classes for cost optimization
+- Automated storage tiering with Autoclass
+- Secure encrypted storage
+- Several data transfer options
+- Tight integration with other Google Cloud services
 
