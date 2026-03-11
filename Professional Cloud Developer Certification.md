@@ -2405,19 +2405,125 @@ It is ideal for **large-scale, globally distributed applications that require re
 
 ## Google Cloud Firestore
 
-Firestore is a flexible, horizontally scalable NoSQL cloud database designed for mobile, web, and server applications. It stores data in documents that are organized into collections. Each document contains key-value pairs and can also include nested objects and subcollections.
+**Firestore** is a flexible, horizontally scalable **NoSQL document database** designed for **mobile, web, and server applications**.
 
-For example, a user document might contain keys such as `firstname` and `lastname` with their corresponding values.
+### Data Model
+Firestore stores data in **documents**, which are organized into **collections**.
 
-Firestore allows developers to run NoSQL queries to retrieve specific documents or all documents in a collection that match certain parameters. Queries can include multiple chained filters and sorting options. All queries are indexed by default, which means query performance depends on the size of the result set rather than the size of the entire dataset.
+Structure:
+- Collections contain **documents**
+- Documents contain **key–value pairs**
+- Documents can include:
+  - Nested objects
+  - Subcollections
 
-Firestore also supports real-time data synchronization. When data changes, updates are automatically pushed to all connected devices. In addition, Firestore caches data that an application is actively using. This allows applications to read, write, listen to, and query data even when a device is offline. When the device reconnects to the internet, Firestore automatically synchronizes the local changes with the cloud database.
-
-Firestore runs on Google Cloud’s infrastructure and provides automatic multi-region replication, strong consistency guarantees, atomic batch operations, and full transaction support.
+Example document:
 
 
+User
+{
+firstname: "John",
+lastname: "Doe"
+}
 
 
+### Queries
+Firestore provides powerful **NoSQL queries** that can:
+
+- Retrieve a specific document
+- Retrieve multiple documents from a collection
+- Filter results using multiple conditions
+- Combine filtering and sorting
+
+All queries are **indexed by default**, so performance depends on the **size of the result set**, not the total dataset.
+
+### Real-Time Synchronization
+Firestore supports **real-time data updates**.
+
+- Changes to data are automatically pushed to connected clients.
+- Applications receive updates immediately when data changes.
+
+### Offline Support
+Firestore caches data used by an application, allowing it to:
+
+- Read
+- Write
+- Listen for updates
+- Run queries
+
+even when the device is **offline**.
+
+When the device reconnects, **local changes are automatically synchronized** with Firestore.
+
+### Infrastructure and Reliability
+Firestore runs on Google Cloud infrastructure and provides:
+
+- Automatic **multi-region replication**
+- **Strong consistency**
+- **Atomic batch operations**
+- **ACID transactions**
+
+
+## Google Cloud Bigtable
+
+**Bigtable** is Google Cloud’s NoSQL big data database service.  
+It powers many core Google services such as Search, Analytics, Maps, and Gmail.
+
+### Key Characteristics
+- NoSQL database
+- Designed for massive workloads
+- Low latency
+- High throughput
+- Handles very large datasets
+
+### When to Use Bigtable
+Bigtable is typically chosen when:
+
+- Data size is **greater than 1 TB**
+- Data changes **rapidly**
+- The workload uses **NoSQL data**
+- **Strong relational transactions are not required**
+- Data is **time-series or naturally ordered**
+- Applications require **big data processing**
+- **Machine learning** workloads are used
+
+### Example Use Cases
+- Internet of Things (IoT)
+- User analytics
+- Financial data analysis
+- Real-time analytics
+- Machine learning workloads
+
+### Integrations
+Bigtable can interact with other services through:
+
+- APIs
+- Managed VMs
+- HBase REST Server
+- Java servers using the HBase client
+
+### Streaming Data
+Data can be streamed into Bigtable using:
+
+- Dataflow Streaming
+- Spark Streaming
+- Storm
+
+### Batch Processing
+Bigtable also supports batch processing using:
+
+- Hadoop MapReduce
+- Dataflow
+- Spark
+
+### Data Usage
+Data stored in Bigtable is commonly used by:
+
+- Applications
+- Dashboards
+- Data services
+
+Processed or aggregated data can be written back to Bigtable or sent to downstream databases.
 
 
 
