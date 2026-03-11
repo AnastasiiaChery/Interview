@@ -2526,5 +2526,49 @@ Data stored in Bigtable is commonly used by:
 Processed or aggregated data can be written back to Bigtable or sent to downstream databases.
 
 
+## Google Cloud Storage Services Comparison
+
+Now that we’ve explored the core Google Cloud storage options, it’s helpful to compare them to understand which service is best suited for different applications or workflows.
+
+**Cloud Storage** is ideal when you need to store **immutable binary objects (BLOBs)** larger than **10 MB**, such as images, videos, or backups.  
+It provides **petabytes of capacity** and supports objects up to **5 TB per object**.
+
+**Cloud SQL** and **Spanner** are good choices when your application requires **full SQL support for online transaction processing (OLTP)**.
+
+- **Cloud SQL**
+  - Supports up to **64 TB** depending on the machine type
+  - Best suited for **existing applications and web frameworks**
+  - Common use cases include storing **user credentials, transactions, and customer orders**
+
+- **Spanner**
+  - Supports **petabyte-scale storage**
+  - Provides **horizontal scalability**
+  - Ideal when Cloud SQL is not sufficient because the system must scale beyond read replicas
+
+**Firestore** is suitable when applications require **massive scaling, real-time query results, and offline support**.
+
+- Provides **terabytes of capacity**
+- Maximum size **1 MB per entity**
+- Best used for **mobile and web application data**
+- Supports **data synchronization and real-time updates**
+
+**Bigtable** is designed for storing **large volumes of structured or semi-structured data**.
+
+- Does **not support SQL queries**
+- Does **not support multi-row transactions**
+- Provides **petabyte-scale storage**
+- Maximum size **10 MB per cell** and **100 MB per row**
+
+Bigtable is commonly used for **analytical workloads** with heavy read and write operations such as:
+
+- **AdTech**
+- **financial data processing**
+- **IoT datasets**
+
+Depending on the architecture of your system, you may use **one or multiple storage services** together.
+
+You might notice that **BigQuery** is not included in this comparison. That’s because BigQuery sits between **data storage and data processing**. It is typically used when the main goal is **large-scale data analysis and interactive querying**, rather than acting purely as a storage service.
+
+
 
 
