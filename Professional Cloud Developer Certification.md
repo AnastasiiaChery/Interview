@@ -2304,3 +2304,121 @@ Cloud SQL provides:
 - Easy integration with Google Cloud services
 
 It is ideal for **traditional applications that require relational databases**.
+
+
+
+## Google Cloud Spanner
+
+### What is Cloud Spanner?
+
+Cloud Spanner is a **fully managed relational database service** that combines:
+
+- **Horizontal scalability**
+- **Strong consistency**
+- **SQL relational capabilities**
+
+It is designed for **large-scale, mission-critical applications**.
+
+Spanner is the same technology used internally by Google to power many of its major services.
+
+---
+
+## Key Characteristics
+
+### Horizontally Scalable
+Unlike traditional relational databases that scale vertically, Spanner can **scale horizontally across multiple servers and regions**.
+
+Benefits:
+- Handles very large datasets
+- Supports massive workloads
+
+---
+
+### Strong Consistency
+Cloud Spanner provides **strong global consistency**.
+
+This means:
+- All users see the same data at the same time
+- Transactions are reliable across regions
+
+---
+
+### SQL Support
+Spanner supports **SQL queries**, allowing developers to:
+
+- Use relational database structures
+- Perform **joins**
+- Use **secondary indexes**
+
+This makes it easier to migrate applications from traditional relational databases.
+
+---
+
+## High Availability
+
+Spanner is designed with **built-in high availability**.
+
+Features include:
+- Automatic replication
+- Global distribution
+- Fault tolerance
+
+This ensures applications remain available even if infrastructure fails.
+
+---
+
+## High Performance
+
+Spanner supports extremely high workloads, including:
+
+- **Tens of thousands of reads per second**
+- **Tens of thousands of writes per second**
+
+This makes it ideal for systems requiring high input/output operations.
+
+---
+
+## Typical Use Cases
+
+Cloud Spanner is best suited for:
+
+- Global financial systems
+- Large-scale e-commerce platforms
+- Global inventory management
+- Online gaming platforms
+- Enterprise SaaS applications
+
+---
+
+## Summary
+
+Cloud Spanner provides:
+
+- Fully managed relational database
+- Global horizontal scalability
+- Strong transactional consistency
+- SQL support with joins and indexes
+- High availability and performance
+
+It is ideal for **large-scale, globally distributed applications that require relational databases and strong consistency**.
+
+
+## Google Cloud Firestore
+
+Firestore is a flexible, horizontally scalable NoSQL cloud database designed for mobile, web, and server applications. It stores data in documents that are organized into collections. Each document contains key-value pairs and can also include nested objects and subcollections.
+
+For example, a user document might contain keys such as `firstname` and `lastname` with their corresponding values.
+
+Firestore allows developers to run NoSQL queries to retrieve specific documents or all documents in a collection that match certain parameters. Queries can include multiple chained filters and sorting options. All queries are indexed by default, which means query performance depends on the size of the result set rather than the size of the entire dataset.
+
+Firestore also supports real-time data synchronization. When data changes, updates are automatically pushed to all connected devices. In addition, Firestore caches data that an application is actively using. This allows applications to read, write, listen to, and query data even when a device is offline. When the device reconnects to the internet, Firestore automatically synchronizes the local changes with the cloud database.
+
+Firestore runs on Google Cloud’s infrastructure and provides automatic multi-region replication, strong consistency guarantees, atomic batch operations, and full transaction support.
+
+
+
+
+
+
+
+
