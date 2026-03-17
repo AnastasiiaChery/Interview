@@ -2571,5 +2571,740 @@ You might notice that **BigQuery** is not included in this comparison. That’s 
 
 
 
+## Containers in Google Cloud
 
+### What are Containers?
+
+Containers are a lightweight way to package and run applications along with their dependencies.
+
+They provide:
+- **Isolation** (like virtual machines)
+- **Fast startup time**
+- **Portability across environments**
+
+---
+
+## IaaS vs Containers
+
+### Infrastructure as a Service (IaaS)
+- Uses **virtual machines (VMs)**
+- Each VM includes:
+  - Full **operating system**
+  - CPU, RAM, storage, networking
+- Pros:
+  - High flexibility
+- Cons:
+  - Large size (GBs)
+  - Slow startup (minutes)
+  - Expensive to scale
+
+---
+
+### Containers
+
+Containers improve on IaaS by:
+
+- Virtualizing the **operating system (not hardware)**
+- Sharing the host OS kernel
+- Running as lightweight processes
+
+A container includes:
+- Application code
+- Dependencies (runtime, libraries, etc.)
+
+---
+
+## Key Advantages of Containers
+
+### Lightweight
+- No full OS required
+- Much smaller than VMs
+
+### Fast Startup
+- Start in **seconds (or less)**
+- No OS boot required
+
+### Efficient Scaling
+- Can run **many containers on a single host**
+- Scale quickly based on demand
+
+### Portability
+- Run the same container:
+  - On a laptop
+  - In development
+  - In staging
+  - In production
+  - In the cloud
+
+No need to rebuild or reconfigure.
+
+---
+
+## How Containers Work
+
+- Require:
+  - A **host OS kernel**
+  - A **container runtime**
+- Containers use **system calls** to interact with the OS
+- OS and hardware are treated as a **black box**
+
+---
+
+## Containers vs Virtual Machines
+
+| Feature | Virtual Machines | Containers |
+|--------|----------------|-----------|
+| OS | Full OS per VM | Shared OS kernel |
+| Size | Large (GBs) | Small |
+| Startup time | Minutes | Seconds |
+| Scaling | Slower | Fast |
+| Resource usage | Higher | Lower |
+
+---
+
+## Scaling with Containers
+
+Example:
+- A web server can be scaled by launching many containers
+- Hundreds of containers can run on a single host
+
+---
+
+## Microservices Architecture
+
+Containers are often used for **microservices**:
+
+- Each container runs a **single function**
+- Services communicate over the network
+- Each component can:
+  - Scale independently
+  - Be deployed separately
+
+---
+
+## Dynamic Scaling
+
+- Hosts can scale up or down
+- Containers can:
+  - Start or stop automatically
+  - Respond to demand changes
+  - Recover from failures
+
+---
+
+## Summary
+
+Containers provide:
+
+- Lightweight application packaging
+- Fast startup and scaling
+- High portability
+- Efficient resource usage
+- Support for microservices architecture
+
+They combine the **flexibility of IaaS** with the **scalability of PaaS**.
+
+
+markdown id="gcp_kubernetes01"
+## Kubernetes & Google Kubernetes Engine (GKE)
+
+### What is Kubernetes?
+
+Kubernetes is an **open-source platform** for managing containerized applications.
+
+It allows you to:
+- Orchestrate containers across multiple machines
+- Scale applications easily
+- Perform rollouts and rollbacks
+- Manage microservices architectures
+
+At a high level, Kubernetes is a set of **APIs** used to deploy containers on a cluster.
+
+---
+
+## Kubernetes Architecture
+
+### Cluster
+A **cluster** is a group of machines (nodes) that run your applications.
+
+### Control Plane
+- Manages the cluster
+- Makes decisions about scheduling, scaling, and state
+
+### Nodes
+- Worker machines where containers run
+- Represent computing instances
+
+---
+
+## Core Kubernetes Concepts
+
+### Pod
+- Smallest deployable unit in Kubernetes
+- Represents a running process
+- Usually contains **one container**
+- Can contain multiple containers if tightly coupled
+
+Pod features:
+- Unique IP address
+- Shared networking and storage
+- Configuration for how containers run
+
+---
+
+### Deployment
+- Manages a group of identical Pods (replicas)
+- Ensures Pods stay running
+- Handles scaling and updates
+
+Example:
+- If a node fails → Deployment recreates Pods automatically
+
+---
+
+### Service
+- Provides a **stable endpoint (IP address)** for Pods
+- Acts as a load balancer
+
+Why needed:
+- Pod IPs change over time
+- Service keeps access consistent
+
+Example:
+- Frontend connects to backend via Service
+- Doesn’t need to know changing Pod IPs
+
+---
+
+## Key kubectl Commands
+
+### Run a container
+
+kubectl run <name>
+
+
+### View Pods
+
+
+kubectl get pods
+
+
+### View Deployments
+
+
+kubectl get deployments
+
+
+### Scale application
+
+
+kubectl scale <deployment>
+
+
+### Apply configuration
+
+
+kubectl apply -f <config.yaml>
+
+
+---
+
+## Scaling in Kubernetes
+
+### Manual Scaling
+
+* Use `kubectl scale`
+* Example: increase replicas from 3 → 5
+
+### Autoscaling
+
+* Based on metrics like CPU usage
+* Automatically adjusts number of Pods
+
+---
+
+## Declarative vs Imperative
+
+### Imperative (commands)
+
+* Direct commands like:
+
+  * `run`
+  * `scale`
+  * `expose`
+* Good for testing and learning
+
+### Declarative (recommended)
+
+* Use configuration files (YAML)
+* Define desired state
+* Kubernetes ensures it matches
+
+Example:
+
+* Update replicas in config file
+* Run `kubectl apply`
+
+---
+
+## Load Balancing in GKE
+
+* Kubernetes creates a **Service**
+* GKE automatically provisions a **network load balancer**
+* External users access via public IP
+* Traffic is routed to available Pods
+
+---
+
+## Updating Applications
+
+### Rolling Updates
+
+* Gradually replace old Pods with new ones
+* Avoid downtime and risk
+
+Process:
+
+1. Update container version
+2. Apply new configuration
+3. Kubernetes:
+
+   * Creates new Pods
+   * Waits until ready
+   * Removes old Pods
+
+---
+
+## Summary
+
+Kubernetes provides:
+
+* Container orchestration
+* Automatic scaling
+* Self-healing (restarts failed Pods)
+* Load balancing
+* Declarative configuration management
+
+GKE simplifies Kubernetes by:
+
+* Managing cluster setup
+* Handling infrastructure
+* Integrating with Google Cloud services
+
+
+`markdown id="gcp_gke01"
+## Google Kubernetes Engine (GKE)
+
+### What is GKE?
+
+Google Kubernetes Engine (GKE) is a **managed Kubernetes service** provided by Google Cloud.
+
+- Runs Kubernetes clusters on **Compute Engine instances**
+- Simplifies deploying and managing containerized applications
+- Handles infrastructure so you can focus on your apps
+
+---
+
+## GKE vs Kubernetes
+
+### Kubernetes (self-managed)
+- You manage:
+  - Control plane
+  - Nodes
+  - Scaling
+  - Upgrades
+
+### GKE (managed)
+- Google manages:
+  - **Control plane infrastructure**
+  - API endpoint
+  - Cluster lifecycle
+
+Result: **Much simpler to use**
+
+---
+
+## GKE Architecture
+
+- Cluster = group of Compute Engine VMs (nodes)
+- Kubernetes API endpoint exposed via IP
+- Google manages control plane behind the scenes
+
+---
+
+## GKE Modes
+
+### Autopilot Mode (Recommended)
+
+- Fully managed infrastructure
+- Google handles:
+  - Node configuration
+  - Autoscaling
+  - Auto-upgrades
+  - Security defaults
+  - Networking setup
+
+Benefits:
+- Optimized for production
+- Strong security posture
+- High operational efficiency
+- Minimal management required
+
+---
+
+### Standard Mode
+
+- You manage:
+  - Node configuration
+  - Scaling settings
+  - Cluster optimization
+
+Use when:
+- You need **fine-grained control**
+
+---
+
+## Key GKE Features
+
+### Cluster Management
+- Create and customize clusters
+- Choose:
+  - Machine types
+  - Number of nodes
+  - Network settings
+
+---
+
+### Node Pools
+- Subsets of nodes within a cluster
+- Allow flexible workload placement
+
+---
+
+### Auto Scaling
+- Automatically adjusts:
+  - Number of nodes
+  - Resource allocation
+
+---
+
+### Auto Upgrades
+- Keeps cluster software up to date
+
+---
+
+### Auto Repair
+- Detects and fixes unhealthy nodes
+
+---
+
+### Load Balancing
+- Integrated with Google Cloud load balancers
+- Distributes traffic across Pods
+
+---
+
+### Monitoring & Logging
+- Integrated with Google Cloud Observability
+- Provides insights into:
+  - Performance
+  - Health
+  - Logs
+
+---
+
+## Working with GKE
+
+### Create a Cluster
+bash id="gke001"
+gcloud container clusters create <cluster-name>
+`
+
+---
+
+### Manage Applications
+
+Use Kubernetes tools:
+
+* Deploy workloads
+* Scale applications
+* Monitor cluster health
+* Configure policies
+
+---
+
+## Summary
+
+GKE provides:
+
+* Managed Kubernetes environment
+* Simplified cluster operations
+* Automatic scaling, upgrades, and repairs
+* Strong security and production readiness
+
+Use **Autopilot mode** by default unless you need advanced control with Standard mode.
+
+
+markdown id="gcp_cloudrun01"
+## Google Cloud Run
+
+### What is Cloud Run?
+
+Cloud Run is a **serverless compute platform** that runs **stateless containers**.
+
+- Executes containers via:
+  - HTTP(S) web requests
+  - Pub/Sub events
+- Fully managed → no infrastructure management required
+
+---
+
+## Key Characteristics
+
+### Serverless
+- No need to manage:
+  - Servers
+  - Clusters
+  - Scaling
+- Focus only on application development
+
+---
+
+### Built on Knative
+- Based on **Knative** (runs on Kubernetes)
+- Can run:
+  - Fully managed on Google Cloud
+  - On GKE
+  - Anywhere Knative is supported
+
+---
+
+### Automatic Scaling
+- Scales **from zero to many instances instantly**
+- Scales down to zero when idle
+
+---
+
+### Pay-per-Use Pricing
+- Charged only when:
+  - Container is handling requests
+- Billing granularity:
+  - **100 milliseconds**
+- No cost when idle
+- Additional cost per **number of requests**
+
+---
+
+## Cloud Run Workflow
+
+### 1. Write Code
+- Use any language
+- Must start a web server that listens for requests
+
+---
+
+### 2. Build Container
+- Package app into a **container image**
+
+---
+
+### 3. Deploy
+- Push image to **Artifact Registry**
+- Cloud Run deploys automatically
+
+---
+
+### Result
+- Get a **unique HTTPS endpoint**
+- Cloud Run:
+  - Handles requests
+  - Scales containers dynamically
+
+---
+
+## Deployment Options
+
+### Container-based Deployment
+- You build and upload container image manually
+- More control and flexibility
+
+---
+
+### Source-based Deployment
+- Upload source code directly
+- Cloud Run:
+  - Builds container automatically
+  - Uses **Buildpacks**
+
+Benefits:
+- Simpler workflow
+- Secure and consistent builds
+
+---
+
+## Built-in Features
+
+### HTTPS by Default
+- Automatic TLS encryption
+- No configuration required
+
+---
+
+### Language Support
+Supports any language that can run on:
+- Linux (64-bit)
+
+Popular languages:
+- Java
+- Python
+- Node.js
+- PHP
+- Go
+- C++
+
+Also supports:
+- Cobol
+- Haskell
+- Perl
+
+---
+
+## Pricing Model
+
+- Pay only when:
+  - Container starts
+  - Container processes requests
+  - Container shuts down
+
+Factors affecting cost:
+- CPU (vCPU)
+- Memory
+- Number of requests
+
+---
+
+## Summary
+
+Cloud Run provides:
+- Serverless container execution
+- Automatic scaling (including to zero)
+- Simple deployment workflows
+- Built-in HTTPS
+- Flexible language support
+- Cost-efficient usage-based pricing
+
+Best for:
+- Web applications
+- APIs
+- Event-driven services
+
+
+
+
+## Cloud Run Functions
+
+### What are Cloud Run Functions?
+
+Cloud Run Functions is a **serverless, event-driven compute service** for running **small, single-purpose functions**.
+
+- Executes code in response to **events**
+- No need to manage:
+  - Servers
+  - Infrastructure
+  - Runtime environments
+
+---
+
+## Event-Driven Applications
+
+Example:
+- User uploads an image
+- Triggers a function to:
+  - Convert image format
+  - Generate thumbnails
+  - Store processed files
+
+Instead of running this logic continuously, it runs **only when needed**
+
+---
+
+## Key Characteristics
+
+### Event-Based Execution
+- Automatically triggered by events such as:
+  - Cloud Storage uploads
+  - Pub/Sub messages
+
+---
+
+### Lightweight & Single-Purpose
+- Designed for **one specific task**
+- Ideal for modular application workflows
+
+---
+
+### Asynchronous & Synchronous
+
+- **Asynchronous**:
+  - Triggered by events (e.g., file upload)
+- **Synchronous**:
+  - Triggered via HTTP request
+
+---
+
+## Benefits
+
+### Serverless
+- No infrastructure management
+- Focus only on code
+
+---
+
+### Cost Efficient
+- Billed per execution
+- Charged to nearest **100 milliseconds**
+- No cost when idle
+
+---
+
+### Integration
+- Connects and extends Google Cloud services
+- Useful for building workflows from small components
+
+---
+
+## Supported Languages
+
+- Node.js  
+- Python  
+- Go  
+- Java  
+- .NET Core  
+- Ruby  
+- PHP  
+
+---
+
+## Use Cases
+
+- File processing (images, videos)
+- Event-driven automation
+- Data transformation
+- Backend logic for apps
+- Cloud service integrations
+
+---
+
+## Summary
+
+Cloud Run Functions provides:
+- Event-driven execution model
+- Lightweight function-based architecture
+- Automatic scaling
+- Pay-per-use pricing
+
+Best for:
+- Background tasks
+- Event processing
+- Microservice-style logic units
 
