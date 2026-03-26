@@ -3544,5 +3544,189 @@ Key idea:
 
 
 
+# Developing Applications with Google Cloud: Foundations
+
+## Benefits of Running Applications in the Cloud
+- **Scalability** – easily handle varying loads  
+- **High availability** – applications stay up even during failures  
+- **Global access** – users can access apps from anywhere  
+- **Reduced operational costs** – less infrastructure management
+
+---
+
+## Cloud Application Development
+- Involves **multiple processes and tools**  
+- Google Cloud provides services and products to:
+  - Streamline development  
+  - Run applications **efficiently and securely**
+
+---
+
+## Course Overview
+- Learn **fundamentals of application development on Google Cloud**  
+- Understand **best practices** for cloud applications  
+- Learn to **select compute and data options** for different use cases  
+- Explore Google services for:
+  - **Continuous integration and delivery (CI/CD)**  
+  - **Application deployment**  
+  - **Application monitoring**  
+
+- Security features:
+  - **Authentication**  
+  - **Authorization**  
+  - **General security best practices**  
+  - **Integration with AI services**
+
+---
+
+## Target Audience
+- Application developers  
+- Architects  
+- Cloud engineers  
+
+> Goal: Build applications using Google Cloud platforms and services.
+
+---
+
+## Learning Approach
+- Series of **video lectures, quizzes, and hands-on labs**  
+- Focus areas:
+  1. Application development best practices in the cloud  
+  2. Choosing the right **data storage options** for use cases  
+  3. Using **authentication and authorization** to secure applications  
+  4. Understanding **compute options** for running applications
+
+
+
+# Developing Applications with Google Cloud: Foundations
+
+## Benefits of Running Applications in the Cloud
+- **Scalability** – easily handle varying loads  
+- **High availability** – applications stay up even during failures  
+- **Global access** – users can access apps from anywhere  
+- **Reduced operational costs** – less infrastructure management
+
+---
+
+## Cloud Application Development
+- Involves **multiple processes and tools**  
+- Google Cloud provides services and products to:
+  - Streamline development  
+  - Run applications **efficiently and securely**
+
+---
+
+## Course Overview
+- Learn **fundamentals of application development on Google Cloud**  
+- Understand **best practices** for cloud applications  
+- Learn to **select compute and data options** for different use cases  
+- Explore Google services for:
+  - **Continuous integration and delivery (CI/CD)**  
+  - **Application deployment**  
+  - **Application monitoring**  
+
+- Security features:
+  - **Authentication**  
+  - **Authorization**  
+  - **General security best practices**  
+  - **Integration with AI services**
+
+---
+
+## Target Audience
+- Application developers  
+- Architects  
+- Cloud engineers  
+
+> Goal: Build applications using Google Cloud platforms and services.
+
+---
+
+## Learning Approach
+- Series of **video lectures, quizzes, and hands-on labs**  
+- Focus areas:
+  1. Application development best practices in the cloud  
+  2. Choosing the right **data storage options** for use cases  
+  3. Using **authentication and authorization** to secure applications  
+  4. Understanding **compute options** for running applications
+
+
+# Module 1 — Best Practices for Cloud Application Development
+
+## Cloud Application Principles
+- Applications must handle **global reach** → responsive and accessible worldwide  
+- **Scalability & High Availability** → handle high traffic reliably; use cloud platform capabilities to scale elastically  
+- **Security** → implement best practices; may require **regional data isolation** for compliance  
+
+---
+
+## Managing Code and Environment
+1. **Use a code repository** (e.g., Git)  
+   - Track source code changes  
+   - Enable **CI/CD pipelines**  
+2. **Do not store external dependencies in code repository**  
+   - Declare dependencies explicitly with versions  
+   - Use a **dependency manager** (e.g., `package.json` + `npm install` for Node.js)  
+3. **Separate configuration from code**  
+   - Use **environment variables** instead of constants in code  
+   - Allows modification between development, test, and production environments  
+
+---
+
+## Application Architecture
+- Prefer **microservices over monolithic applications**  
+  - Monoliths can become bloated → hard to update, test, deploy  
+  - Microservices allow:
+    - Modular code bases  
+    - Independent updates, testing, deployment  
+    - Independent scaling per service  
+
+- Evaluate **costs vs. benefits** before refactoring monoliths  
+
+---
+
+## Backend Operations & Event-Driven Design
+- Minimize operations in **user thread** → perform backend tasks asynchronously  
+- **Event-driven processing** example:
+  1. User uploads image → store in **Cloud Storage**  
+  2. Trigger **Cloud Run function** to process image  
+  3. Upload processed image to separate **Cloud Storage location**  
+
+- **Loose coupling**:
+  - Reduces risk of failure and improves scalability  
+  - Use **Eventarc** or **Pub/Sub** for queues and asynchronous processing  
+  - Example: Order and inventory services operate independently  
+
+---
+
+## API Design Best Practices
+- **Loose binding** with HTTP API payloads:  
+  - Services only consume required fields  
+  - Allows backward-compatible evolution of APIs  
+
+---
+
+## Stateless Application Components
+- Do **not store or share state internally** → scalability bottleneck  
+- Components should focus on **compute tasks only** → enables worker pattern  
+- **Startup and shutdown**:
+  - Components start quickly → efficient scaling  
+  - Shutdown gracefully → handle termination signals  
+- **Cloud Run example**:
+  - Scales based on traffic  
+  - Processes requests **without storing state**  
+  - Data persisted in separate database (e.g., **Firestore**)  
+
+---
+
+## Resiliency and Error Handling
+- Applications must handle **transient and long-lasting errors**  
+- **Transient errors** → implement **retry with exponential backoff**  
+  - Avoid overloading backend or network  
+  - Cloud client libraries often handle retries automatically  
+- **Persistent errors** → implement **circuit breaker** and fail gracefully  
+- **User-facing errors** → degrade functionality gracefully instead of showing error messages  
+  - Example: Recommendation engine down → hide recommendations rather than display errors
+
 
 
