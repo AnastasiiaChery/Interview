@@ -3730,3 +3730,167 @@ Key idea:
 
 
 
+## Performance Optimization: Caching & CDN
+
+### Caching
+- Improves **performance** and reduces **latency**
+- Use for:
+  - Frequently accessed data  
+  - Computationally expensive results  
+
+**Flow:**
+1. Check cache first  
+2. If data exists → return cached data  
+3. If not → fetch from backend, compute result  
+4. Update cache  
+
+- **Memorystore** → managed in-memory cache (Redis / Memcached)
+
+---
+
+### Content Delivery Network (CDN)
+- **Cloud CDN** → uses Google’s global edge network  
+- Serves content closer to users → faster response times  
+
+**Supports:**
+- Cloud Storage (static content)  
+- Cloud Run services/functions  
+- Compute Engine instances  
+
+---
+
+## API Management
+
+- Use **API gateways** to expose backend services  
+- **Apigee** → API management platform  
+
+**Features:**
+- Security  
+- Rate limiting  
+- Quotas  
+- Analytics  
+- Acts as a **proxy (facade)** for backend APIs  
+
+💡 Useful for integrating **legacy systems** with modern applications  
+
+---
+
+## Authentication & Identity
+
+- Delegate authentication to external providers:
+  - Google, Facebook, GitHub  
+
+- **Identity Platform**:
+  - User sign-up / sign-in  
+  - Supports:
+    - Email/password  
+    - SAML  
+    - OpenID Connect  
+    - Multi-factor authentication  
+
+- **Firebase Authentication**:
+  - SDKs + UI components  
+  - Easy integration into apps  
+
+💡 Benefit: no need to build and maintain your own auth system  
+
+---
+
+## Logging & Observability
+
+- Treat logs as **event streams**, not files  
+- Write logs to **standard output (stdout)**  
+- Infrastructure handles:
+  - Collection  
+  - Storage  
+  - Analysis  
+
+**Benefits:**
+- Logs-based metrics  
+- Distributed tracing across services  
+
+- Works especially well with **serverless (Cloud Run)**  
+
+- **Google Cloud Observability**:
+  - Logging  
+  - Monitoring  
+  - Error Reporting  
+  - Multi-cloud support  
+
+---
+
+## DevOps & CI/CD
+
+### Why CI/CD?
+- Increase **release velocity**  
+- Improve **reliability**  
+- Reduce risk with **incremental changes**  
+
+---
+
+### CI/CD Concepts
+
+**CI (Continuous Integration):**
+- Developers merge code into shared repo  
+- Trigger build + automated tests  
+
+**CD (Continuous Delivery):**
+- Validated code is ready for deployment  
+
+**Continuous Deployment:**
+- Automatically deploy to production if tests pass  
+
+💡 Faster releases, but requires strong testing  
+
+---
+
+### Google Cloud CI/CD Tools
+
+- **Cloud Build**:
+  - Detects code changes  
+  - Builds application  
+  - Runs tests  
+
+- **Artifact Registry**:
+  - Stores build artifacts (containers, packages)  
+
+- **Cloud Deploy**:
+  - Automates deployments to environments  
+
+---
+
+### Deployment Strategies
+- **Blue/Green** → parallel environments, safe switch  
+- **Canary** → gradual rollout to small % of users  
+
+---
+
+## Migration Pattern: Strangler Pattern
+
+- Gradually replace legacy system with new services  
+- Use a **facade** to route requests:
+  - Old system  
+  - New services  
+
+**Process:**
+1. Replace small components first  
+2. Incrementally migrate features  
+3. Eventually remove legacy system  
+
+💡 Reduces risk and allows gradual transition  
+
+---
+
+## Key Takeaways
+- Use **caching + CDN** for performance  
+- Use **API gateways** for secure access to services  
+- Delegate **authentication** (don’t build from scratch)  
+- Treat logs as **event streams**  
+- Use **CI/CD pipelines** for automation  
+- Prefer **incremental deployment and migration strategies**
+
+
+
+
+
+
