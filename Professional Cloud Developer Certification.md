@@ -3891,6 +3891,725 @@ Key idea:
 
 
 
+# Cloud APIs and Google Cloud SDK
+
+## Cloud APIs
+
+- Cloud APIs provide **programmatic access** to Google Cloud services  
+- Any Google Cloud resource/service can be used by calling its API  
+
+**Capabilities available via APIs:**
+- Compute  
+- Networking  
+- Storage  
+- Machine Learning  
+
+---
+
+### How Cloud APIs Work
+- APIs are called using:
+  - **HTTP requests** with JSON payloads  
+  - **gRPC requests** (binary, more efficient)  
+
+- **gRPC**:
+  - Open-source framework  
+  - Uses efficient binary communication  
+  - Can run anywhere  
+
+---
+
+### Authentication
+- API calls require **application credentials**  
+- Credentials are validated to ensure:
+  - The application has access to the Google Cloud project  
+  - Permissions are properly enforced  
+
+---
+
+## Google Cloud SDK
+
+- The **Google Cloud SDK** is used to interact with Google Cloud services  
+
+### Components of SDK:
+1. **Command-line tools (gcloud CLI)**  
+2. **Language-specific Cloud Client Libraries**  
+
+---
+
+### Relationship Between Components
+- SDK tools and libraries → use **Cloud APIs** internally  
+- Cloud APIs → communicate with Google Cloud services  
+
+---
+
+## Key Idea
+
+
+Applications / SDK
+↓
+Cloud APIs
+↓
+Google Cloud Services
+
+
+👉 SDK = developer-friendly tools  
+👉 Cloud APIs = underlying interface to services  
+
+
+
+# Google Cloud APIs & CLI Overview
+
+## Cloud APIs
+
+- Cloud APIs provide **programmatic access** to Google Cloud services  
+- They allow applications to interact with:
+  - Compute  
+  - Networking  
+  - Storage  
+  - Machine Learning  
+
+### How Cloud APIs Work
+- Called via:
+  - HTTP requests with JSON payloads  
+  - gRPC (efficient binary protocol)  
+
+- gRPC:
+  - Open-source framework  
+  - More efficient than JSON over HTTP  
+  - Suitable for high-performance communication  
+
+### Authentication
+- API requests require **application credentials**  
+- Credentials are validated to ensure:
+  - Access to the correct Google Cloud project  
+  - Proper permissions and security enforcement  
+
+---
+
+## Google Cloud SDK
+
+- The **Google Cloud SDK** provides tools to interact with Google Cloud services  
+
+### Components:
+1. **Command-line tools (gcloud CLI)**  
+2. **Cloud Client Libraries (language-specific SDKs)**  
+
+- These tools internally use **Cloud APIs**  
+
+---
+
+## gcloud CLI
+
+- The **gcloud CLI** is a command-line tool used to:
+  - Manage Google Cloud resources  
+  - Run commands manually or in scripts  
+  - Automate tasks  
+
+### Key Features:
+- Uses Cloud APIs behind the scenes  
+- Automatically handles authentication  
+- Combines multiple API calls into a single command  
+- Can perform most tasks available via Cloud APIs  
+
+### Common Use Cases:
+- Managing Compute Engine VMs  
+- Deploying applications  
+- Configuring cloud services  
+
+---
+
+## Other CLI Tools
+
+| Tool | Purpose |
+|------|--------|
+| **gcloud** | General Google Cloud resource management |
+| **gsutil / gcloud storage** | Manage Cloud Storage buckets and objects |
+| **bq** | Query and manage BigQuery datasets |
+
+---
+
+## Cloud Storage CLI
+
+### gsutil (legacy)
+- Used for managing buckets and objects  
+- Handles access control lists (ACLs)  
+
+### gcloud storage (preferred)
+- Modern replacement for gsutil  
+- Better performance and consistency with gcloud  
+
+**Examples:**
+- Create and manage buckets  
+- Upload, copy, move, delete objects  
+- Control access permissions  
+
+---
+
+## BigQuery CLI (bq)
+
+- Command-line tool for interacting with BigQuery  
+
+### Capabilities:
+- Manage datasets and tables  
+- Run SQL queries  
+- Analyze large datasets  
+
+---
+
+## CLI Management Commands
+
+
+gcloud compute instances list
+Lists VM instances
+gcloud components list
+Shows installed CLI components
+gcloud components install kubectl
+Installs additional components (e.g., Kubernetes CLI)
+gcloud components update
+Updates the CLI to the latest version
+Key Summary
+Cloud APIs → direct programmatic access to Google Cloud
+Cloud SDK → tools built on top of APIs
+gcloud CLI → primary command-line interface for managing resources
+gsutil / gcloud storage → Cloud Storage management
+bq → BigQuery queries and data management
+
+👉 CLI tools simplify working with Cloud APIs by handling authentication, abstraction, and automation.
+
+
+
+# Cloud Client Libraries & Google Cloud SDK
+
+## Cloud Client Libraries
+
+Cloud Client Libraries are the recommended way to access Google Cloud services from applications. They are easier to use than making direct API calls because they provide a higher-level abstraction and handle many low-level details automatically.
+
+These libraries manage communication with Google Cloud services, including authentication, request formatting, and response handling. They also include built-in retry logic for transient network failures, improving reliability without additional implementation effort. Many Cloud Client Libraries internally use gRPC APIs, which can provide better performance due to more efficient binary communication compared to HTTP/JSON.
+
+Cloud Client Libraries follow the natural conventions and idioms of each supported programming language, making them more intuitive for developers.
+
+Supported languages include:
+- Python  
+- Node.js  
+- Java  
+- Go  
+- PHP  
+- Ruby  
+- C++  
+- .NET (including C#)  
+
+If your application is written in one of these languages, you should use the corresponding Cloud Client Library.
+
+Each Cloud Client Library provides a client object that interacts with a specific API. Applications typically run under an identity such as a service account. The library automatically uses default credentials associated with that identity, so authentication does not need to be handled manually.
+
+Typical workflow:
+1. Import the client library  
+2. Instantiate the client using default credentials  
+3. Call methods on the client to perform operations (e.g., create a Cloud Storage bucket)  
+
+---
+
+## Google Cloud SDK
+
+The Google Cloud SDK is a set of tools used to interact with Google Cloud services. It can be installed on Linux, macOS, and Windows.
+
+After installation, it is initialized using:
+
+gcloud init
+
+This command configures:
+
+Authentication
+Default project
+User preferences
+
+Once initialized, you can immediately start using the SDK.
+
+gcloud CLI
+
+The SDK includes the gcloud CLI, which provides an interactive command-line interface with features such as:
+
+Auto-completion
+Command suggestions
+
+It allows you to:
+
+Manage Google Cloud resources manually
+Run commands in scripts
+Automate workflows
+Deploy applications
+Perform administrative tasks
+
+gcloud CLI commands can be used interactively or integrated into CI/CD pipelines.
+
+Summary
+Cloud Client Libraries are the preferred way to integrate Google Cloud services into applications.
+They simplify development by handling:
+Authentication
+Communication
+Retries
+They provide language-native APIs for better developer experience.
+Google Cloud SDK + gcloud CLI are used for:
+Environment setup (gcloud init)
+Resource management
+Automation and scripting
+
+
+
+
+# Cloud Shell, Cloud Code, Emulators & Cloud Workstations
+
+## Cloud Shell
+
+Cloud Shell is a free, browser-based command-line environment provided by Google Cloud Console.
+
+### Key Features:
+- Provides temporary virtual machine instances
+- Runs a Debian-based Linux environment
+- Includes 5 GB of persistent disk storage per user
+- Pre-installed with Google Cloud SDK and authenticated access to your projects
+
+### Lifecycle:
+- Provisioned per user and per session
+- Persists while the session is active
+- Terminates after ~1 hour of inactivity
+- Persistent disk is retained across sessions
+
+### Built-in Tools:
+- Cloud SDK (gcloud CLI, gsutil, bq, etc.)
+- Built-in code editor based on Theia
+  - Allows browsing, editing, and managing files directly in the VM
+
+---
+
+## Cloud Code
+
+Cloud Code is a set of IDE plugins that simplify developing, deploying, and debugging applications for Google Cloud.
+
+### Supported IDEs:
+- Cloud Shell Editor  
+- Visual Studio Code  
+- JetBrains IDEs (e.g., IntelliJ, PyCharm)  
+
+### Key Capabilities:
+- Streamlines cloud development workflows inside the IDE
+- Integrates with:
+  - Cloud APIs  
+  - Cloud Client Libraries  
+  - Deployment tools  
+- Provides UI-based workflows instead of manual CLI usage
+
+### Secret Manager Integration:
+- Securely store and manage:
+  - Passwords  
+  - API keys  
+  - Certificates  
+- Accessible directly from the IDE
+
+### Cloud API Support:
+- Browse available APIs
+- View language-specific documentation
+- Copy code samples for APIs
+
+---
+
+## Cloud Code for Kubernetes
+
+Cloud Code includes tools for Kubernetes development:
+
+### Features:
+- Develop, run, and debug Kubernetes applications locally or on Google Kubernetes Engine (GKE)
+- Kubernetes Explorer:
+  - Visualize and manage Kubernetes resources in the IDE
+  - Interact with resources (e.g., view logs, open terminal in Pods)
+- YAML assistance:
+  - Autocomplete
+  - Inline documentation
+  - Schema-aware editing for Kubernetes configuration files
+
+---
+
+## Cloud Code for Cloud Run
+
+Cloud Code also supports Cloud Run development:
+
+- Develop Cloud Run services directly in the IDE
+- Run and debug locally using Cloud Run Emulator
+- Deploy services directly from the IDE
+- Manage services using Cloud Run Explorer
+
+---
+
+## Local Emulators
+
+Google Cloud provides local emulators for development without connecting to real cloud services.
+
+### Supported Services:
+- Bigtable  
+- Datastore  
+- Firestore  
+- Pub/Sub  
+- Spanner  
+
+### Key Features:
+- No need to modify application code when switching between emulator and real service  
+- Use environment variables to point Cloud Client Libraries to the emulator  
+- Avoid consuming real cloud resources during development  
+
+### CLI Usage:
+gcloud beta emulators
+Cloud Workstations
+
+Cloud Workstations provide fully managed, secure cloud-based development environments.
+
+Key Features:
+Preconfigured, reproducible development environments
+Accessible via:
+Browser
+SSH
+Local IDE
+Supports any tools that run in containers
+Centralized management for IT administrators
+Infrastructure:
+Runs on ephemeral Compute Engine VMs
+Uses persistent disks within the customer VPC
+Environments can be started/stopped on demand or when idle
+Benefits:
+Consistent development environments across teams
+No need for manual setup on developer machines
+Improved security and control
+Scalable and manageable for organizations
+Summary
+Cloud Shell provides a ready-to-use browser-based development environment with preinstalled tools.
+Cloud Code integrates cloud development into IDEs and simplifies workflows for APIs, Kubernetes, and Cloud Run.
+Local emulators allow safe, offline development without using real cloud resources.
+Cloud Workstations offer fully managed, consistent, and secure development environments for teams.
+
+
+
+# Module Summary: Tools for Working with Google Cloud
+
+- **Google Cloud APIs** provide programmatic interfaces to Google Cloud services.  
+  They allow applications to interact directly with cloud resources using HTTP/JSON or gRPC.
+
+- **Google Cloud SDK** provides a simpler interface for interacting with Google Cloud from the command line or scripts.  
+  It includes tools like:
+  - gcloud (general resource management)  
+  - bq (BigQuery)  
+  - gsutil / gcloud storage (Cloud Storage)
+
+- **Cloud Client Libraries** are the recommended way to interact with Google Cloud services from your application code.  
+  They:
+  - Are language-specific (Python, Java, Node.js, etc.)  
+  - Handle authentication automatically  
+  - Include retry logic  
+  - Follow language-native conventions  
+
+- **Cloud Shell** provides a free, browser-based virtual machine with preinstalled tools (including the Cloud SDK) that you can use to manage Google Cloud resources.
+
+- **Cloud Code** helps you develop applications in your preferred IDE by integrating Google Cloud tools, APIs, and workflows directly into the development environment.
+
+
+# Overview of Data Storage Options in Google Cloud
+
+Applications often need to handle different types of data, such as:
+
+- Media files (e.g., images, videos)
+- High volumes of user-generated content (e.g., messages)
+- Transactional data (e.g., orders, payments)
+- Frequently accessed data that benefits from caching
+- Analytical data used for business intelligence and insights
+
+Google Cloud provides a range of managed storage services, each designed for specific use cases.
+
+In this module, the following services are introduced:
+
+- **Cloud Storage** — object storage for unstructured data such as images and files  
+- **Firestore** — NoSQL document database for flexible, scalable applications  
+- **Bigtable** — wide-column NoSQL database for high-throughput, low-latency workloads  
+- **Cloud SQL** — managed relational database (MySQL, PostgreSQL, SQL Server)  
+- **Spanner** — globally distributed relational database with strong consistency  
+- **BigQuery** — serverless data warehouse for analytics and large-scale querying  
+
+Each storage option has ideal use cases as well as scenarios where it may not be suitable. Understanding these differences helps you choose the right storage solution based on your application's requirements, including scalability, structure of data, consistency, and query needs.
+
+
+
+# Managed Storage Services in Google Cloud
+
+Google Cloud provides a wide range of managed storage services. There is no one-size-fits-all solution — the choice depends on the type of data, workload, scalability needs, and consistency requirements.
+
+---
+
+## Cloud Storage
+
+Cloud Storage is a unified object storage service used for storing and serving unstructured data.
+
+### Key Characteristics:
+- Stores data as **objects** accessed via HTTP
+- Each object is identified by a unique name (key)
+- Data is treated as **unstructured bytes**
+- Supports ranged GET requests (retrieve parts of an object)
+- Objects can be up to **5 TB**
+
+### Use Cases:
+- Static website hosting  
+- Image, video, and file storage  
+- Backups and archives  
+- Serving large static content globally  
+
+### Properties:
+- High availability  
+- High durability  
+- Scalability  
+- Strong consistency  
+
+---
+
+## Firestore
+
+Firestore is a fully managed, serverless NoSQL document database.
+
+### Key Features:
+- Document-based data model organized into collections
+- Supports hierarchical and nested data structures
+- Strong consistency
+- Real-time updates
+- Offline support
+- Scales automatically with demand
+- Provides mobile and web client libraries
+
+### Use Cases:
+- Mobile and web applications  
+- Applications requiring flexible schemas  
+- Apps with real-time synchronization  
+- User-centric applications  
+
+---
+
+## Bigtable
+
+Bigtable is a high-performance NoSQL wide-column database.
+
+### Key Characteristics:
+- Sparse table with rows and columns at massive scale  
+- Handles billions of rows and thousands of columns  
+- Stores terabytes to petabytes of data  
+- Optimized for fast key-value lookups  
+
+### Performance:
+- Sub-10ms latency  
+- High read/write throughput  
+- Seamless scaling without downtime  
+
+### Use Cases:
+- Time-series data  
+- User behavior analytics  
+- Large-scale operational and analytical workloads  
+- MapReduce-style processing  
+- High-throughput, low-latency applications  
+
+### Additional Info:
+- Supports HBase API (open standard compatibility)
+
+---
+
+## Cloud SQL
+
+Cloud SQL is a fully managed relational database service.
+
+### Supported Engines:
+- MySQL  
+- PostgreSQL  
+- SQL Server  
+
+### Key Features:
+- Managed replication, backups, and failover  
+- Read replicas for scaling reads  
+- Automatic failover for high availability  
+
+### Cloud SQL Auth Proxy:
+- Provides secure connectivity to Cloud SQL instances  
+- Uses a local proxy and secure tunnel  
+- Eliminates the need to manage:
+  - IP allowlists  
+  - SSL certificates  
+
+### Use Cases:
+- Web applications  
+- Structured data applications  
+- Online Transaction Processing (OLTP) workloads  
+- Applications requiring minimal migration effort from traditional RDBMS  
+
+---
+
+## AlloyDB
+
+AlloyDB is a fully managed, high-performance PostgreSQL-compatible database.
+
+### Key Features:
+- Fully compatible with PostgreSQL  
+- Separates compute and storage for better scalability  
+- High availability with automatic scaling  
+- Managed replication, backups, and failover  
+
+### Performance:
+- Faster transactional performance than standard PostgreSQL  
+- Columnar engine enables:
+  - Very fast analytical queries  
+  - Efficient hybrid transactional and analytical processing (HTAP)  
+
+### AlloyDB Auth Proxy:
+- Similar to Cloud SQL Auth Proxy  
+- Provides secure access without managing IPs or SSL certificates  
+
+### Use Cases:
+- High-performance PostgreSQL workloads  
+- Applications requiring both transactional and analytical processing  
+- Systems needing strong performance and scalability  
+
+---
+
+## Spanner
+
+Spanner is a fully managed relational database designed for global scale.
+
+### Key Features:
+- Strong consistency  
+- Horizontal scalability  
+- Automatic synchronous replication  
+- Multi-region support  
+- High availability with SLA of 99.999%  
+
+### Use Cases:
+- Mission-critical OLTP applications  
+- Global applications requiring consistent relational data  
+- Systems needing both strong consistency and high availability  
+
+---
+
+## Summary
+
+Google Cloud offers multiple storage solutions, each optimized for specific use cases:
+
+- **Cloud Storage** → unstructured object storage (files, media, backups)  
+- **Firestore** → NoSQL document database for flexible, real-time apps  
+- **Bigtable** → high-throughput NoSQL for large-scale, low-latency workloads  
+- **Cloud SQL** → managed relational databases (MySQL, PostgreSQL, SQL Server)  
+- **AlloyDB** → high-performance PostgreSQL-compatible database with advanced analytics  
+- **Spanner** → globally distributed relational database with strong consistency  
+
+Choosing the right storage solution depends on:
+- Data structure (structured vs unstructured)  
+- Consistency requirements  
+- Latency and throughput needs  
+- Scalability and global distribution requirements
+
+
+# BigQuery, Memorystore & Storage Selection Overview
+
+## BigQuery
+
+BigQuery is a fully managed, serverless enterprise data warehouse designed for analytics.
+
+### Key Features:
+- Serverless (no infrastructure management)
+- Built-in capabilities:
+  - Machine learning
+  - Geospatial analysis
+  - Business intelligence integration
+- Extremely fast query performance:
+  - Scans terabytes in seconds
+  - Scans petabytes in minutes
+
+### Use Cases:
+- Online Analytical Processing (OLAP)
+- Big data exploration and analysis
+- Reporting and dashboards with BI tools
+- Large-scale data processing
+
+---
+
+## Memorystore
+
+Memorystore is a fully managed in-memory data store service.
+
+### Supported Engines:
+- Redis  
+- Memcached  
+
+### Key Features:
+- Fully managed (no need to manage infrastructure)
+- Protocol-compatible with Redis and Memcached
+- High availability and scalability
+- Automatic:
+  - Provisioning  
+  - Replication  
+  - Failover  
+  - Patching  
+
+### Use Cases:
+- Scalable web applications  
+- Gaming applications  
+- Stream processing  
+- Real-time data access  
+- Caching frequently accessed data  
+
+### Security & Networking:
+- Uses VPC networks and internal IPs (not exposed to the public internet)
+- Integrates with Identity and Access Management (IAM)
+- Can be monitored and alerted via Cloud Monitoring  
+
+---
+
+## Choosing the Right Storage Option
+
+When selecting a storage solution in Google Cloud, consider:
+
+- **Data type**:
+  - Structured
+  - Semi-structured
+  - Unstructured  
+
+- **Latency requirements**:
+  - Low latency (e.g., Bigtable, Memorystore)  
+  - Analytical workloads (e.g., BigQuery)  
+
+- **Data size**:
+  - Small to large datasets  
+  - Terabytes to petabytes scale  
+
+- **Workload type**:
+  - OLTP (transactions) → Cloud SQL, Spanner  
+  - OLAP (analytics) → BigQuery  
+
+- **Access patterns**:
+  - Frequent reads/writes  
+  - Key-value access  
+  - Real-time vs batch processing  
+
+---
+
+## Key Principles
+
+- No single database fits all use cases  
+- You can use **multiple databases** within one application  
+- Each storage system should be chosen based on its strengths  
+- Data can be split across services depending on requirements  
+- Storage limits apply per database, not per application  
+
+---
+
+## Summary
+
+- **BigQuery** → serverless data warehouse for analytics (OLAP)  
+- **Memorystore** → in-memory caching with Redis/Memcached for low-latency access  
+- Storage selection depends on:
+  - Data structure  
+  - Latency  
+  - Scale  
+  - Use case (OLTP vs OLAP)  
+- Applications often combine multiple storage solutions for different needs
 
 
 
