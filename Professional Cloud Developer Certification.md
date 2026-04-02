@@ -4613,3 +4613,675 @@ When selecting a storage solution in Google Cloud, consider:
 
 
 
+# Summary: Google Cloud Data Storage Services
+
+Google Cloud provides a wide range of managed services to store, query, and manage different types of application data. Each service is optimized for specific use cases.
+
+---
+
+## Storage & Database Options
+
+### Cloud Storage
+- Managed service for **unstructured data**
+- Ideal for:
+  - Static website hosting  
+  - Images, videos, and large files  
+- Designed for high durability, availability, and scalability  
+
+---
+
+### Firestore
+- Fully managed, serverless **NoSQL document database**
+- Automatically scales with demand  
+- Features:
+  - Real-time synchronization  
+  - Offline support  
+  - Transactions  
+
+- Ideal for:
+  - Mobile and web applications  
+  - User-centric apps with flexible data models  
+
+---
+
+### Bigtable
+- High-performance **NoSQL wide-column database**
+- Designed for:
+  - Very large datasets  
+  - High read/write throughput  
+  - Low-latency access  
+
+- Ideal for:
+  - Analytical workloads  
+  - Operational workloads at scale  
+
+---
+
+### Cloud SQL
+- Fully managed **relational database service**
+- Supports:
+  - MySQL  
+  - PostgreSQL  
+  - SQL Server  
+
+- Ideal for:
+  - Traditional applications  
+  - Migrating existing systems to the cloud with minimal changes  
+
+---
+
+### AlloyDB
+- Fully managed, high-performance **PostgreSQL-compatible database**
+- Optimized for:
+  - Transactional + analytical workloads (HTAP)  
+- Provides better performance than standard PostgreSQL  
+
+---
+
+### Spanner
+- Fully managed **globally distributed relational database**
+- Features:
+  - Strong consistency  
+  - Horizontal scalability  
+  - High availability  
+
+- Ideal for:
+  - Mission-critical systems  
+  - Global applications with low-latency requirements  
+
+---
+
+### BigQuery
+- Serverless **data warehouse**
+- Designed for:
+  - OLAP workloads  
+  - Large-scale analytics  
+
+- Can process:
+  - Terabytes in seconds  
+  - Petabytes in minutes  
+
+---
+
+### Memorystore
+- Fully managed **in-memory data store (cache)**
+- Supports:
+  - Redis  
+  - Memcached  
+
+- Ideal for:
+  - Caching frequently accessed data  
+  - Real-time applications  
+  - Low-latency data access  
+
+---
+
+## Key Takeaway
+
+Google Cloud provides specialized storage solutions for different needs:
+
+- Unstructured data → Cloud Storage  
+- NoSQL apps → Firestore / Bigtable  
+- Relational data → Cloud SQL / AlloyDB / Spanner  
+- Analytics → BigQuery  
+- Caching → Memorystore  
+
+👉 The right choice depends on:
+- Data type  
+- Scale  
+- Performance requirements  
+- Application architecture
+
+
+# Module Overview: Authentication and Authorization in Google Cloud
+
+Implementing authentication and authorization from scratch can be complex and risky. Google Cloud provides built-in services to help secure applications, manage identities, and control access.
+
+---
+
+## Key Concepts Covered
+
+### Identity and Access Management (IAM)
+
+- IAM is used to control:
+  - **Who** can access resources (authentication)
+  - **What** actions they can perform (authorization)
+
+- IAM allows you to:
+  - Define roles and permissions
+  - Assign access to users, groups, or service accounts
+  - Control access to Google Cloud resources and APIs
+
+---
+
+### Identity Platform (Authentication)
+
+- A managed service for user authentication
+- Supports enterprise-grade identity management
+
+### Features:
+- User sign-up and sign-in
+- Integration with external identity providers
+- Token-based authentication
+- Secure handling of user credentials
+
+---
+
+### Service Accounts
+
+- Special type of account used by applications and services
+- Used for **machine-to-machine authentication**
+
+### Use Cases:
+- Applications accessing Google Cloud APIs
+- Backend services communicating securely
+- Automated workloads and services
+
+---
+
+### Identity-Aware Proxy (IAP)
+
+- Controls access to applications running on Google Cloud
+- Provides authentication and authorization at the application layer
+
+### Benefits:
+- No need to modify application code for access control
+- Centralized access management
+- Protects applications behind Google Cloud infrastructure
+
+---
+
+### Firebase Authentication SDK
+
+- Simplifies implementing authentication in applications
+- Supports federated identity management
+
+### Features:
+- Integrates with Identity Platform
+- Validates users against stored credentials
+- Supports external identity providers
+- Provides ready-to-use authentication flows
+
+---
+
+### Secret Manager
+
+- Securely stores sensitive data such as:
+  - API keys  
+  - Passwords  
+  - Certificates  
+  - Credentials  
+
+### Benefits:
+- Centralized and secure storage of secrets  
+- Avoids hardcoding sensitive data in application code  
+- Controlled access via IAM policies  
+
+---
+
+## Summary
+
+- IAM manages **authorization** (access control to resources)
+- Identity Platform handles **user authentication**
+- Service accounts are used for **application-level authentication**
+- Identity-Aware Proxy protects applications at the access layer
+- Firebase SDK simplifies authentication integration in apps
+- Secret Manager securely stores sensitive credentials
+
+👉 Together, these services provide a comprehensive and secure approach to authentication and authorization in Google Cloud applications.
+
+
+# IAM Authorization in Google Cloud
+
+## Overview
+
+Identity and Access Management (IAM) is used to control **who can access which resources and what actions they can perform**.
+
+IAM follows three core concepts:
+- **Principal (who)**  
+- **Role (what permissions)**  
+- **Resource (which service/resource)**  
+
+---
+
+## Principle of Least Privilege
+
+- Grant only the **minimum permissions required** for a task  
+- Avoid overly broad access  
+- Helps reduce security risks  
+
+---
+
+## IAM Principals (Who can access)
+
+Principals are identities that can be granted access:
+
+### 1. Google Account
+- Represents an individual user (developer, admin, etc.)
+- Used for personal access to Google Cloud
+
+### 2. Service Account
+- Represents an application or workload (not a human user)
+- Used by:
+  - Applications running on Google Cloud
+  - Automated services
+- A single project can have multiple service accounts for different components
+
+### 3. Google Group
+- A collection of Google Accounts and service accounts
+- Has a unique email address
+- Used to manage permissions for multiple users at once
+- Cannot authenticate directly (no login credentials)
+
+### 4. Google Workspace Account
+- Represents all users within an organization domain (e.g., example.com)
+- Used for centralized access management
+- Cannot be used directly for authentication
+
+### 5. Cloud Identity Domain
+- Similar to Google Workspace accounts
+- Represents an organization’s users
+- Does not include Google Workspace applications
+- Also used for centralized access control
+
+---
+
+## IAM Resources
+
+IAM controls access to resources such as:
+- Projects  
+- Compute Engine instances  
+- Cloud Storage buckets  
+- Artifact Registry repositories  
+
+---
+
+## Permissions and Roles
+
+### Permissions
+- Define specific allowed actions on a resource  
+- Represented in the format:
+  - `service.resource.action`  
+  - Example: `pubsub.subscriptions.consume`
+
+- Permissions cannot be assigned directly to users
+
+---
+
+### Roles
+- A **collection of permissions**
+- Assigned to principals (users, groups, service accounts)
+
+When a role is granted:
+- The principal receives **all permissions** included in that role
+
+---
+
+## Example
+
+- A Google Group (e.g., "staff") is assigned the **InstanceAdmin** role on a project  
+- All members of the group inherit the permissions of that role  
+
+---
+
+## Types of IAM Roles
+
+### 1. Basic Roles
+- Broad and highly permissive
+- Examples:
+  - Viewer (read-only access)
+- Not recommended for production due to wide access scope
+
+---
+
+### 2. Predefined Roles
+- Fine-grained roles created and maintained by Google
+- Designed for specific services and tasks  
+- Example:
+  - `run.invoker` → allows invoking Cloud Run services  
+
+---
+
+### 3. Custom Roles
+- User-defined roles
+- Allow full control over included permissions
+- Useful when predefined roles are too broad
+- Help enforce the principle of least privilege
+
+---
+
+## Key Takeaways
+
+- IAM manages access using **principals, roles, and permissions**
+- Permissions define actions, roles group permissions
+- Roles are assigned to principals, not individual permissions
+- Use:
+  - Basic roles → simple cases (avoid in production)
+  - Predefined roles → most common use
+  - Custom roles → fine-grained control
+- The **principle of least privilege** should always guide access design
+
+
+
+# Authentication in Google Cloud
+
+## Overview
+- In Google Cloud, **authentication** and **authorization** are distinct concepts:
+  - **Authentication**: proves *who you are*
+  - **Authorization (IAM)**: determines *what you are allowed to do*
+- Authentication requires presenting credentials to verify identity.
+
+---
+
+## Authentication in Applications
+Application developers may need authentication in several scenarios:
+- Allow applications to access Google Cloud services
+- Call services hosted on Google Cloud (e.g., Cloud Run)
+- Restrict app access to only authenticated users
+- Authenticate end users interacting with an application
+
+- Interactions with Google Cloud services are typically done via **API calls**
+
+---
+
+## Methods of Authorizing API Calls
+
+### 1. API Keys
+- A simple string that identifies an application
+- Associates requests with a Google Cloud project (for billing and quotas)
+
+**Characteristics:**
+- Not tied to a user identity
+- Provide long-lasting access if compromised
+- Best suited for:
+  - Low-security
+  - Read-only APIs
+- Many Google APIs do not accept API keys
+
+**Security Note:**
+- If an API key is exposed, it can lead to full access to the API
+
+---
+
+### 2. User Accounts (OAuth)
+- Represents an individual person
+- Identified by an email address
+
+**How it works:**
+- User logs in with:
+  - Email
+  - Password (or other credentials)
+- This generates an **OAuth token**
+
+**OAuth Token:**
+- Grants limited access based on user permissions
+- Expires after a period of time
+- More secure than API keys
+
+---
+
+### 3. Service Accounts
+- Represents a workload or application (not a person)
+- Identified by a unique email address
+
+**Key Characteristics:**
+- Used by applications to authenticate without user involvement
+- Access is controlled via **IAM roles**
+- No passwords are used
+- Authentication is based on **RSA key pairs**
+
+---
+
+## Service Accounts in Detail
+
+### Purpose
+- Act as the identity for applications or compute workloads
+- Enable applications to securely call Google APIs
+
+### Authentication Mechanism
+- Uses an **RSA private-public key pair**
+- Private key can be downloaded as a JSON file
+
+**Important Notes:**
+- No password exists → cannot log in via browser
+- Private key is equivalent to a user password in terms of security sensitivity
+
+---
+
+## Service Account Keys and Tokens
+- The private key is used to generate an **access token**
+- The access token:
+  - Allows API access on behalf of the service account
+  - Inherits permissions from IAM roles assigned to the service account
+
+---
+
+## Security Risks of Service Account Keys
+
+### 1. Credential Leakage
+- Example: committing a private key to a public repository
+- Attackers can use the key to access cloud resources
+
+### 2. Privilege Escalation
+- If an attacker gains access to a service account key:
+  - They can use the permissions of that service account
+  - Potentially gain access to additional resources (e.g., databases)
+
+- Even after rotating the key, previously granted access may persist
+
+### 3. Identity Masking
+- Attackers can hide their identity by acting as the service account
+- Actions appear to originate from the service account, not the attacker
+
+---
+
+## Best Practices
+- Avoid using downloaded service account keys whenever possible
+- Prefer alternative authentication methods for service accounts
+- Carefully manage and protect any credentials that are used
+
+---
+
+## Summary
+- Authentication verifies identity; IAM handles authorization
+- API access in Google Cloud can be authorized via:
+  - API keys (simple, less secure)
+  - User accounts with OAuth tokens (user-based, time-limited)
+  - Service accounts (application identity, role-based access)
+- Service accounts use RSA key pairs instead of passwords
+- Service account keys are sensitive and pose security risks if exposed
+- Best practice: minimize reliance on downloadable service account keys and use more secure authentication methods
+
+
+
+# Authentication Methods for Google Cloud APIs
+
+## Overview
+- There are multiple ways to authenticate applications to Google Cloud APIs.
+- The choice depends on:
+  - Where the application is running
+  - Whether federation is possible
+  - Security requirements
+
+---
+
+## Key Decision: Where is the Application Running?
+
+### 1. Application Running on Google Cloud
+
+#### a) Local Development Environment
+- Use:
+  - `gcloud auth application-default login`
+- Purpose:
+  - Allows the application to use **user credentials**
+- Behavior:
+  - Generates a JSON file with user credentials
+  - Stored in a location recognized by **Application Default Credentials (ADC)**
+
+---
+
+#### b) Production (Not GKE)
+- Recommended approach:
+  - **Attach a service account** to the compute resource
+
+Examples:
+- Compute Engine VM
+- Cloud Run service
+- Cloud Functions
+
+**Best practice:**
+- Use a **user-managed service account**
+- Assign only the necessary IAM roles (principle of least privilege)
+
+---
+
+#### c) Applications Running on GKE
+- Use **Workload Identity**
+
+**What it does:**
+- Allows Kubernetes service accounts to impersonate IAM service accounts
+- Automatically exchanges Kubernetes tokens for Google Cloud access tokens
+
+**Benefits:**
+- Fine-grained identity per workload
+- No need for service account keys
+- More secure and manageable
+
+---
+
+## 2. Application Not Running on Google Cloud
+
+### a) Workload Identity Federation (Preferred)
+- Used for:
+  - Multi-cloud environments
+  - On-premises systems
+
+**Requirements:**
+- External identity provider that supports OpenID Connect (OIDC)
+- Ability to generate an ID token
+
+**How it works:**
+- External ID token → exchanged for Google Cloud access token
+- Allows impersonation of a service account
+- No service account keys required
+
+**Advantages:**
+- Avoids storing long-lived credentials
+- Uses short-lived tokens
+
+---
+
+### b) Service Account Keys (Last Resort)
+- Used only if federation is not possible
+
+**Risks:**
+- Credential leakage
+- Privilege escalation
+- Identity masking
+
+**Best practices:**
+- Avoid embedding keys in code or binaries
+- Never commit keys to source repositories
+- Prefer generating your own key pairs:
+  - Upload public key to Google
+  - Securely manage private key externally
+- Apply **least privilege** to service accounts
+
+---
+
+## Application Default Credentials (ADC)
+
+### Purpose
+- ADC automatically finds and uses credentials without code changes
+- Works across:
+  - Local development
+  - Google Cloud environments
+  - External environments (if configured)
+
+---
+
+### Credential Lookup Order
+
+1. **Environment Variable**
+   - `GOOGLE_APPLICATION_CREDENTIALS`
+   - Points to a service account JSON file
+
+2. **User Credentials (gcloud CLI)**
+   - Credentials created via:
+     - `gcloud auth application-default login`
+
+3. **Attached Service Account**
+   - Resource-level service account (e.g., Cloud Run, GKE, Compute Engine)
+
+4. **Default Service Account**
+   - Platform-provided service account if no custom one is attached
+
+5. **Error**
+   - If no credentials are found, authentication fails
+
+---
+
+## gcloud Authentication Commands
+
+### gcloud auth login
+- Used for authenticating CLI usage
+- Applies to `gcloud` commands only
+
+### gcloud auth application-default login
+- Used for application authentication
+- Provides credentials for code via ADC
+- Stores credentials in a well-known location
+
+---
+
+## Workload Identity (GKE)
+
+- Enables Kubernetes workloads to act as IAM service accounts
+- Steps:
+  1. Enable Workload Identity on the cluster
+  2. Allow Kubernetes service account to impersonate IAM service account
+- ADC handles token exchange automatically
+
+---
+
+## Workload Identity Federation
+
+- Allows external workloads to access Google Cloud APIs securely
+- Uses:
+  - External identity provider
+  - OIDC ID tokens
+- Flow:
+  - External ID token → exchanged for Google Cloud access token
+  - Token impersonates a service account
+
+---
+
+## Best Practices
+
+- Prefer:
+  - Attached service accounts (on Google Cloud)
+  - Workload Identity (for GKE)
+  - Workload Identity Federation (for external workloads)
+
+- Avoid:
+  - Service account keys whenever possible
+
+- If keys must be used:
+  - Do not embed them in code or binaries
+  - Do not store them in public repositories
+  - Generate and manage keys securely
+  - Apply least privilege to service accounts
+
+---
+
+## Summary
+- Authentication method depends on deployment environment
+- ADC simplifies credential management across environments
+- Recommended approaches:
+  - Local: `gcloud auth application-default login`
+  - Google Cloud: attached service accounts
+  - GKE: Workload Identity
+  - External: Workload Identity Federation
+- Service account keys should be avoided and used only as a last resort
+
+  
