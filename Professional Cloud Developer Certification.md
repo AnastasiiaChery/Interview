@@ -5286,5 +5286,836 @@ Examples:
 
 
 
+# Additional Authentication & Authorization Methods
+
+## Overview
+- Some applications need to **access resources on behalf of a user**
+- Google Cloud provides multiple solutions for:
+  - User-based access
+  - Application access control
+  - Mobile/web authentication
+
+---
+
+## OAuth 2.0 (User-Based Access)
+
+### Purpose
+- Allows applications to access Google Cloud resources **on behalf of a user**
+
+### Use Cases
+- Accessing user-owned resources (e.g., BigQuery datasets)
+- Creating resources (projects, services) for users
+
+### How It Works
+1. Application requests access to user resources
+2. User is prompted to **grant consent**
+3. Application requests credentials from an **authorization server**
+4. Application uses credentials (tokens) to access resources
+
+**Key Point:**
+- Access is limited by user permissions and granted consent
+
+---
+
+## Identity-Aware Proxy (IAP)
+
+### Purpose
+- Controls access to applications running on Google Cloud
+
+### Key Features
+- Verifies user identity
+- Determines access based on IAM configuration
+- Works with applications accessed via HTTPS
+
+### Benefits
+- No need to write custom authentication code
+- Provides a **centralized authorization layer**
+- Enables **application-level access control**
+
+### Advantages Over Traditional Methods
+- Replaces:
+  - VPN-based access
+  - Network-level firewalls
+  - Custom authorization logic
+
+---
+
+## Firebase Authentication
+
+### Overview
+- Part of Firebase platform for mobile/web app development
+- Provides ready-to-use authentication features
+
+### Supported Authentication Methods
+- Email & password
+- Phone number
+- Federated identity providers:
+  - Google
+  - Apple
+  - GitHub
+
+### Features
+- Pre-built UI components for:
+  - Sign-up
+  - Sign-in
+  - Account recovery
+- SDKs for easy integration
+
+### After Authentication
+- Access user profile
+- Use authentication tokens in:
+  - OAuth 2.0 flows
+  - OpenID Connect (OIDC)
+  - Backend services
+
+---
+
+## Identity Platform
+
+### Overview
+- Similar to Firebase Authentication but designed for **enterprise use**
+
+### Key Features
+- Supports:
+  - OpenID Connect (OIDC)
+  - SAML authentication
+- Advanced capabilities:
+  - Multi-factor authentication (MFA)
+  - Integration with Identity-Aware Proxy (IAP)
+
+### Comparison with Firebase Auth
+
+| Feature                     | Firebase Auth | Identity Platform |
+|---------------------------|--------------|------------------|
+| Basic authentication       | ✅           | ✅               |
+| SDKs & UI components       | ✅           | ✅               |
+| Federated identity         | ✅           | ✅               |
+| OpenID Connect (OIDC)      | ⚠️ Limited   | ✅ Full support  |
+| SAML support               | ❌           | ✅               |
+| Multi-factor authentication| ❌           | ✅               |
+| Enterprise features        | ❌           | ✅               |
+
+---
+
+## Summary
+- **OAuth 2.0**: Access resources on behalf of users with consent
+- **IAP**: Centralized access control for applications (no custom code needed)
+- **Firebase Auth**: Easy-to-use authentication for mobile/web apps
+- **Identity Platform**: Enterprise-grade authentication with advanced features
+
+
+# Secret Manager in Google Cloud
+
+## Overview
+- Applications often require sensitive credentials such as:
+  - API keys
+  - Passwords
+  - Certificates
+- These credentials must be stored securely
+
+**Problem with traditional storage:**
+- Storing secrets in flat files:
+  - Easy access
+  - Difficult to secure properly
+  - Leads to scattered secrets across systems (cloud & on-prem)
+
+**Solution:**
+- **Secret Manager** provides a centralized, secure way to store and manage secrets
+
+---
+
+## Key Concepts
+
+- Secrets can be stored as:
+  - Text strings
+  - Binary data
+- Access is controlled via **IAM permissions**
+- Only authorized users and applications can access secrets
+
+**Benefits:**
+- Centralized storage
+- Simplified access control
+- Improved security management
+
+---
+
+## Features of Secret Manager
+
+### 1. Global & Regional Storage
+- Secret names are **global**
+- Secret data can be stored:
+  - Automatically (any region)
+  - In user-specified regions
+
+---
+
+### 2. Versioning
+- Secrets support multiple versions
+- Each version:
+  - Contains different data
+  - Is immutable (cannot be modified)
+  - Can be deleted if needed
+
+- No limit on number of versions
+
+---
+
+### 3. Access Control (IAM)
+- Secrets are created at the **project level**
+- By default:
+  - Only project owners have access
+- Other users must be explicitly granted permissions
+
+**Follows principle of least privilege**
+
+---
+
+### 4. Auditing
+- Integrated with **Cloud Audit Logs**
+- Tracks:
+  - Reads
+  - Writes
+  - Updates
+
+**Purpose:**
+- Monitor access
+- Ensure only authorized usage
+
+---
+
+### 5. Encryption
+
+#### Default Encryption
+- Managed automatically by Google
+- Uses secure internal key management systems
+
+#### Customer-Managed Encryption (Cloud KMS)
+- Optional integration with **Cloud KMS**
+- Allows:
+  - Custom encryption keys
+  - Additional control over security
+
+---
+
+## How Secret Manager Works
+
+### 1. Creating a Secret
+- Methods:
+  - Google Cloud Console
+  - `gcloud` CLI
+  - API / code
+
+**Example concept:**
+- Create a secret with:
+  - Name (e.g., `my-secret`)
+  - Data (provided via input or file)
+  - Replication policy:
+    - `automatic` (default, multi-region)
+    - `user-managed` (specific regions)
+
+---
+
+### 2. Accessing a Secret
+
+- Secrets are accessed using a **resource name**, which includes:
+  - Project ID
+  - Secret name
+  - Version
+
+**Versioning:**
+- Versions are numbered: `1, 2, 3, ...`
+- Can also use:
+  - `latest` → retrieves most recent version
+
+---
+
+### 3. Using Client Libraries
+- Example: Python SDK
+
+**Steps:**
+1. Import Secret Manager library
+2. Create a client
+3. Specify secret resource name
+4. Retrieve and decode secret payload
+
+---
+
+## Best Practices
+
+- Avoid storing secrets in:
+  - Flat files
+  - Source code
+  - Repositories
+
+- Use:
+  - Centralized secret storage (Secret Manager)
+  - IAM for strict access control
+  - Versioning for safe updates
+
+- Apply:
+  - Least privilege principle
+  - Audit logging for monitoring access
+
+---
+
+## Summary
+- Secret Manager securely stores sensitive data in Google Cloud
+- Provides:
+  - Centralized management
+  - Fine-grained access control (IAM)
+  - Versioning
+  - Auditing
+  - Encryption (default + Cloud KMS integration)
+- Replaces insecure methods like flat file storage
+- Enables secure and scalable handling of application secrets
+
+
+
+  # Summary: IAM, Authentication Methods, and Related Services
+
+## Overview
+- This section reviews key concepts related to:
+  - Authorization (IAM)
+  - Authentication methods for applications
+  - Secure access to applications and resources
+  - Secret management
+
+---
+
+## Identity and Access Management (IAM)
+
+- IAM is used to manage access control in Google Cloud
+- Defines:
+  - **Who** has access
+  - **What** they can access
+  - **Which resources** are affected
+
+**Key idea:**
+- IAM is the foundation of authorization in Google Cloud
+
+---
+
+## Service Accounts
+
+- Applications access Google Cloud APIs using **service accounts**
+- The application assumes the identity of a service account
+
+**Key points:**
+- Service accounts represent workloads (not users)
+- Can be used to:
+  - Authenticate applications
+  - Control access via IAM roles
+- Multiple service accounts can be created to:
+  - Separate access between components
+  - Follow the principle of least privilege
+
+---
+
+## Service Account Keys
+
+- Service account keys are used for authentication via private keys
+- They allow generation of access tokens
+
+**Risks:**
+- Credential leakage
+- Privilege escalation
+- Identity masking
+
+**Important takeaway:**
+- Keys must be handled carefully and are best avoided when possible
+
+---
+
+## Choosing Authentication Methods
+
+- The appropriate authentication method depends on:
+  - Where the application is running
+  - Whether federation is possible
+  - Security requirements
+
+(A decision flow was used to guide selection of methods such as:
+service accounts, Workload Identity, federation, or keys)
+
+---
+
+## Identity-Aware Proxy (IAP)
+
+- Controls access to applications hosted on Google Cloud
+
+**How it works:**
+- Verifies user identity
+- Checks authorization based on configuration
+- Grants or denies access accordingly
+
+**Key benefits:**
+- Centralized access control layer
+- No need for custom authentication code
+- Works with HTTPS-based applications
+- No VPN required for end users
+
+**User experience:**
+- Users access applications via a public URL
+- IAP handles authentication and authorization
+
+---
+
+## Firebase Authentication vs Identity Platform
+
+- Both provide user authentication for applications
+
+### Firebase Authentication
+- Designed for mobile and web apps
+- Supports:
+  - Email/password
+  - Phone authentication
+  - Federated identity providers (Google, Apple, GitHub)
+- Provides:
+  - SDKs
+  - Pre-built UI components
+  - Easy integration
+
+### Identity Platform
+- Enterprise-focused alternative to Firebase Auth
+- Adds advanced features:
+  - OpenID Connect (OIDC) support
+  - SAML authentication
+  - Multi-factor authentication (MFA)
+  - Integration with IAP
+
+---
+
+## Secret Manager
+
+- Used to securely store sensitive information such as:
+  - API keys
+  - Passwords
+  - Certificates
+
+**Key features:**
+- Centralized secret storage
+- Access controlled via IAM
+- Supports versioning
+- Integrates with Cloud KMS for encryption
+- Provides audit logging for monitoring access
+
+---
+
+## Summary
+- IAM controls authorization in Google Cloud
+- Service accounts are used for application authentication and access control
+- Service account keys introduce security risks and should be avoided when possible
+- IAP provides centralized, secure access control for applications without requiring VPNs
+- Firebase Authentication and Identity Platform manage user authentication
+- Secret Manager securely stores and manages sensitive application data
+
+
+
+# Adding Intelligence to Your Application
+
+## Overview
+- This module introduces how to add **intelligence (AI/ML)** to applications using Google Cloud
+- Focus areas:
+  - Machine learning concepts
+  - Pre-trained APIs
+  - Generative AI
+
+---
+
+## Machine Learning (ML)
+
+- Machine learning is about teaching machines to **recognize patterns**, similar to humans
+
+**Concept:**
+- Humans can easily classify objects (e.g., apple vs orange)
+- For computers, this task is complex and requires training data and models
+
+---
+
+## Pre-trained Machine Learning Models
+
+- Google provides **pre-trained ML models** as APIs
+- These models are already trained and ready to use
+
+**Benefits:**
+- No need to build models from scratch
+- Can be integrated with just a few lines of code
+- Accessible via Google Cloud APIs
+
+---
+
+## Types of Pre-trained AI APIs
+
+Google Cloud offers APIs in several AI domains:
+
+- **Vision AI** – image recognition and analysis  
+- **Speech AI** – speech-to-text and text-to-speech  
+- **Video Intelligence** – video analysis and understanding  
+- **Natural Language Processing (NLP)** – text analysis and understanding  
+
+---
+
+## Generative AI
+
+### Definition
+- Generative AI is a type of AI that **creates new content** based on learned patterns from existing data
+
+### Capabilities
+- Generates text, images, code, and other content
+- Extends traditional AI by producing outputs rather than just analyzing data
+
+### Benefits
+- Enhances application capabilities
+- Improves developer productivity
+- Enables more intelligent and interactive user experiences
+
+---
+
+## Summary
+- Machine learning enables pattern recognition similar to human cognition
+- Google Cloud provides pre-trained AI APIs for easy integration into applications
+- Developers can add AI features (vision, speech, NLP, video) with minimal code
+- Generative AI goes further by creating new content, making applications more powerful and efficient
+
+
+# Pre-trained Machine Learning Models & Google Cloud APIs
+
+## Overview
+- Google Cloud provides **pre-trained machine learning (ML) models** that can be easily integrated into applications
+- These models are accessible via **simple REST APIs**
+- No deep ML expertise is required to use them
+
+---
+
+## Pre-trained ML APIs
+
+### 1. Vision API
+- Performs **image analysis and detection**
+
+**Capabilities:**
+- Object labeling (categorization of items in images)
+- Optical Character Recognition (OCR)
+- Detection of:
+  - Faces
+  - Landmarks
+  - Logos
+  - Explicit content
+
+**Examples:**
+- Detects emotional expressions in faces
+- Identifies landmarks and distinguishes between similar structures
+
+---
+
+### 2. Speech APIs
+
+#### Speech-to-Text API
+- Converts audio into text
+
+**Features:**
+- Supports ~110 languages and variants
+- Use cases:
+  - Voice dictation
+  - Voice commands (command-and-control)
+  - Audio transcription
+
+#### Text-to-Speech API
+- Converts text into spoken audio
+
+---
+
+### 3. Cloud Translation API
+- Translates text between languages
+
+**Key points:**
+- Supports arbitrary text input
+- Highly responsive (suitable for real-time applications)
+- Enables dynamic translation in:
+  - Websites
+  - Applications
+
+---
+
+### 4. Cloud Natural Language API
+- Analyzes and extracts insights from text
+
+**Capabilities:**
+- Entity extraction (people, places, topics)
+- Sentiment analysis
+- Intent detection
+
+**Use cases:**
+- Analyzing customer feedback
+- Understanding social media sentiment
+- Processing customer conversations
+
+---
+
+### 5. Video Intelligence API
+- Analyzes video content
+
+**Capabilities:**
+- Identifies and labels entities in videos
+- Detects entities at:
+  - Frame level
+  - Shot level
+  - Entire video level
+- Annotates videos stored in Cloud Storage
+
+**Use cases:**
+- Searching video content
+- Identifying key moments in videos
+- Extracting meaningful metadata
+
+---
+
+## AutoML and Custom Models (Vertex AI)
+
+### AutoML (Vertex AI)
+- Allows users with limited ML expertise to:
+  - Train high-quality models
+  - Without writing code
+
+**Supported data types:**
+- Images
+- Text
+- Tabular data
+- Video
+
+---
+
+### Custom ML Models
+- Developers can build their own models using frameworks such as:
+  - TensorFlow
+  - PyTorch
+  - Vertex AI tools
+
+**Use case:**
+- When pre-trained models are not sufficient for specific business needs
+
+---
+
+## Using ML APIs
+
+- ML functionality can be accessed via **REST APIs**
+- Typical workflow:
+  1. Send a JSON request
+  2. API processes the input (e.g., image, audio)
+  3. Receive a JSON response with analyzed results
+
+---
+
+## Example: Vision API
+
+- Input: Image stored in Cloud Storage
+- Output: JSON response with detected attributes
+
+**Example capabilities:**
+- Label detection
+- OCR (text extraction from images)
+- Face analysis (emotions, attributes like headwear)
+- Landmark and object recognition
+
+---
+
+## Example: Speech-to-Text API
+
+- Converts spoken audio into text
+- Supports multiple use cases:
+  - Voice transcription
+  - Voice-enabled applications
+  - Audio file processing
+
+---
+
+## Example: Google Use Case (Occupancy Detection)
+
+- Google uses ML to optimize meeting room usage
+
+**How it works:**
+- Motion detection via cameras
+- Pub/Sub notifications sent periodically:
+  - Motion detected
+  - Meeting start/end events
+
+**Logic:**
+- If motion is detected within a specific time window after meeting start:
+  - Room is considered occupied
+- Otherwise:
+  - Room is marked as empty and available
+
+---
+
+## Summary
+- Google Cloud provides multiple pre-trained ML APIs for common AI tasks:
+  - Vision, Speech, Translation, Natural Language, Video Intelligence
+- These APIs are:
+  - Easy to integrate via REST
+  - Require no ML expertise
+- AutoML (Vertex AI) allows training custom models without coding
+- Developers can also build custom ML models using frameworks like TensorFlow and PyTorch
+
+
+
+# Generative AI
+
+## Overview
+- **Generative AI** is a type of artificial intelligence that creates new content based on existing data
+- It learns patterns from large datasets and uses them to generate outputs in response to user input (prompts)
+
+---
+
+## How Generative AI Works
+
+### Training
+- The process of learning from large amounts of existing data (text, images, audio)
+- Produces a **statistical model** based on patterns in the data
+
+### Foundation Models
+- The result of training on large datasets is called a **foundation model**
+- These models can:
+  - Be used directly for general tasks
+  - Be fine-tuned for specific use cases
+
+### Prompts and Outputs
+- Users provide an input called a **prompt**
+- The model predicts a response based on learned patterns
+- New content is generated from this predicted response
+
+---
+
+## Large Language Models (LLMs)
+
+### Definition
+- A type of foundation model trained primarily on text data
+
+### Characteristics of "Large"
+- Large datasets (often petabyte-scale)
+- Large number of parameters (billions or trillions)
+
+### Parameters
+- Represent the learned knowledge of the model
+- Influence the model’s ability to generate accurate and relevant outputs
+
+### Key Properties
+- **General-purpose**:
+  - Can solve common language-related tasks
+- **Pre-trained + Fine-tuned**:
+  - Pre-trained on large general datasets
+  - Fine-tuned on smaller, domain-specific datasets for specialized tasks
+
+---
+
+## Comparison with Traditional Approaches
+
+### Traditional Programming
+- Developer defines explicit rules
+- Machine follows predefined logic
+
+**Limitation:**
+- Hard to account for all possible scenarios
+
+---
+
+### Machine Learning (Non-generative)
+- Model learns patterns from labeled data
+- Typically designed for a specific task
+- Example: classifying images as cats or non-cats
+
+---
+
+### Generative AI
+- Learns from large, multimodal datasets
+- Develops broader understanding across domains
+- Capable of generating new content and solving more general problems
+
+---
+
+## Use Cases of Generative AI
+
+### 1. Content Generation
+- Generate:
+  - Stories
+  - Poems
+  - Images (based on instructions)
+
+---
+
+### 2. Knowledge Summarization
+- Summarize:
+  - Documents
+  - Audio
+  - Video
+- Generate:
+  - Questions and answers from content
+
+---
+
+### 3. Search and Discovery
+- Help find:
+  - Documents
+  - Products based on features
+- Improves information retrieval and recommendations
+
+---
+
+### 4. Workflow Automation
+- Automate business processes such as:
+  - Extracting and labeling contracts
+  - Classifying customer feedback
+  - Creating support tickets
+
+---
+
+## Generative AI for Developers
+
+Generative AI can assist in software development through coding assistants.
+
+### Key Capabilities
+
+#### Code Generation
+- Generate code from natural language descriptions
+
+#### Code Completion
+- Suggest and complete lines or entire functions based on context
+
+#### Code Explanation
+- Explain how code works and its purpose
+
+#### Code Fixing
+- Identify bugs and suggest corrections
+
+#### Documentation
+- Generate:
+  - Comments
+  - Release notes
+  - Documentation summaries
+
+#### Code Translation
+- Convert code between programming languages while following conventions
+
+---
+
+## Tools and Platforms
+
+- **Vertex AI Codey APIs**
+  - Powered by the Codey foundation model
+  - Supports:
+    - Code generation
+    - Code chat
+    - Code completion
+
+- **Gemini**
+  - Provides advanced AI assistance for developers
+  - Helps improve productivity and efficiency in coding tasks
+
+---
+
+## Summary
+- Generative AI creates new content based on learned patterns from large datasets
+- Foundation models (especially LLMs) are trained on massive data and can be fine-tuned for specific tasks
+- Compared to traditional programming and ML, generative AI is more general-purpose and flexible
+- It supports a wide range of use cases including content creation, summarization, search, automation, and coding assistance
+- Tools like Vertex AI Codey and Gemini help developers integrate generative AI into applications
+
 
   
