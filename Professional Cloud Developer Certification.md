@@ -6118,4 +6118,947 @@ Generative AI can assist in software development through coding assistants.
 - Tools like Vertex AI Codey and Gemini help developers integrate generative AI into applications
 
 
-  
+  # CI/CD Pipeline (Continuous Integration & Continuous Delivery)
+
+## Overview
+- A **CI/CD pipeline** provides a stable and repeatable process for:
+  - Building applications
+  - Testing applications
+  - Deploying applications
+
+---
+
+## Continuous Integration (CI)
+
+### Process
+- Developers commit code changes to a **feature branch** in a code repository
+- A build service (e.g., **Cloud Build**) is automatically triggered
+
+### Key Steps
+- Code is built according to predefined rules
+- Application artifacts (containers, executables) are generated
+- Artifacts are stored in a repository such as **Artifact Registry**
+
+---
+
+## Continuous Delivery (CD)
+
+### Trigger
+- Occurs when changes are pushed to the **main branch**
+
+### Process
+1. Build system creates application images
+2. Deployment system (e.g., **Cloud Deploy**) deploys images to:
+   - **Cloud Run** or
+   - **GKE**
+3. Deployment happens in a **staging environment**
+4. Automated tests are executed:
+   - Integration tests
+   - Performance tests
+
+### Release Candidate
+- If tests pass:
+  - Build is marked as a **release candidate**
+
+### Approval & Deployment
+- Manual approval can trigger deployment to production
+- Deployment strategies include:
+  - Canary release
+  - Blue-green deployment
+
+### Monitoring
+- Application performance is monitored using **Cloud Monitoring**
+
+### Rollout / Rollback
+- If stable:
+  - Traffic is fully switched to the new version
+- If issues are found:
+  - Rollback to the previous stable version
+
+---
+
+## Continuous Deployment
+
+- Similar to continuous delivery, but:
+  - **No manual approval step**
+  - Release candidates are automatically deployed to production
+
+---
+
+## CI/CD Pipeline Summary
+- Ensures:
+  - Efficiency
+  - Consistency
+  - Automation of build and deployment processes
+
+---
+
+## Security in CI/CD
+
+Security must be integrated throughout the pipeline.
+
+### Software Delivery Shield
+- Fully managed solution for securing the entire software supply chain
+- Protects all stages of CI/CD
+
+---
+
+## Key Security Services
+
+### Assured Open Source Software
+- Provides verified open-source Java and Python packages
+- Packages are:
+  - Built using secure pipelines
+  - Regularly scanned and analyzed for vulnerabilities
+  - Maintained and patched by Google
+
+---
+
+### Cloud Build
+- Builds source code and imports verified dependencies
+- Runs builds on Google Cloud infrastructure
+- Maintains **verifiable metadata** for traceability
+
+---
+
+### Artifact Registry
+- Stores and manages build artifacts securely
+- Works with **Artifact Analysis** for vulnerability scanning
+
+---
+
+### Artifact Analysis
+- Scans:
+  - Container images
+  - Maven and Go packages
+- Detects vulnerabilities in:
+  - Base images
+  - Open-source dependencies
+- Continuously monitors artifacts for new vulnerabilities
+
+---
+
+### Cloud Deploy
+- Automates delivery across environments in a defined sequence
+- Supports:
+  - Cloud Run
+  - GKE
+  - One-click approvals
+  - Rollbacks
+- Provides security insights for deployments
+
+---
+
+### Binary Authorization
+- Enforces a chain of trust in the supply chain
+- Uses **attestations**:
+  - Digital proofs that an image was built through a trusted process
+- Ensures:
+  - Only verified images are deployed
+  - Policies are enforced
+- Alerts on policy violations
+
+---
+
+### GKE Security
+- Evaluates clusters and workloads
+- Provides recommendations for:
+  - Cluster configuration
+  - Workload security
+  - Vulnerability mitigation
+
+---
+
+### Cloud Run Security
+- Provides a security panel with:
+  - Build insights
+  - Vulnerability information for running services
+
+---
+
+## Summary
+- CI/CD pipelines automate build, test, and deployment workflows
+- Continuous integration focuses on building and validating code changes
+- Continuous delivery/deployment focuses on releasing those changes to environments
+- Google Cloud provides integrated services for:
+  - Automation (Cloud Build, Cloud Deploy)
+  - Storage (Artifact Registry)
+  - Security (Binary Authorization, Artifact Analysis, Software Delivery Shield)
+- Security is embedded across the entire software supply chain to ensure trusted and reliable deployments
+
+
+# Containerized Applications on Google Cloud
+
+## Overview
+- **Containers** are a preferred way to package and deploy applications
+- Provide a lightweight alternative to traditional **virtual machines (VMs)**
+- Widely used in modern cloud-native development
+
+---
+
+## Containers vs Virtual Machines
+
+### Virtual Machines (VMs)
+- Each VM includes:
+  - Full operating system (OS)
+  - Application and dependencies
+- Characteristics:
+  - Slower to boot
+  - Resource-heavy
+
+---
+
+### Containers
+- Use OS-level virtualization instead of hardware virtualization
+- Share the host OS kernel
+- Include only:
+  - Application code
+  - Required libraries and dependencies
+
+**Advantages:**
+- Faster startup (seconds vs minutes)
+- Lower resource usage
+- Lightweight and efficient
+
+---
+
+## How Containers Work
+
+- Based on **process isolation** in operating systems
+- Use features such as:
+  - Memory isolation
+  - Namespaces
+  - Resource limits
+
+### Container Runtime
+- Lightweight software responsible for:
+  - Running containers
+  - Managing container lifecycle
+  - Interacting with the OS kernel
+  - Defining container image format
+
+---
+
+## Container Images
+
+- A **container image** is a complete package containing:
+  - Application binary
+  - Dependencies
+  - Required libraries
+
+**Key benefit:**
+- Same image runs consistently across:
+  - Development
+  - Testing
+  - Production
+
+---
+
+## Benefits of Containers
+
+### 1. Separation of Responsibilities
+- Developers:
+  - Focus on application code and dependencies
+- Operations teams:
+  - Manage deployment and infrastructure
+
+---
+
+### 2. Portability
+- Containers can run anywhere:
+  - Local machines
+  - On-premises environments
+  - Any cloud provider
+
+**Benefit:**
+- Same application behaves consistently across environments
+
+---
+
+### 3. Application Isolation
+- Each container runs in its own isolated environment
+- Allows:
+  - Multiple applications on same hardware
+  - Different dependency versions without conflict
+
+---
+
+### 4. Fast Startup
+- Containers start in seconds
+- VMs can take minutes to boot
+
+---
+
+## Deployment Targets
+
+- Containers can be deployed to:
+  - **Cloud Run**
+  - **Google Kubernetes Engine (GKE)**
+
+---
+
+## Building Containers with Cloud Build
+
+### Overview
+- **Cloud Build** is a fully managed service for:
+  - Building container images
+  - Creating build pipelines
+  - Pushing images to **Artifact Registry**
+
+---
+
+### Key Features
+
+- No need to manage build infrastructure
+- Automatically triggered builds on code commits
+- Integration with source repositories
+
+---
+
+## Build Triggers
+
+- Define when builds should run
+
+**Trigger types:**
+- Code commits to specific branches
+- Code commits with specific tags
+
+---
+
+## Build Configuration
+
+- Defined using:
+  - YAML or JSON files
+
+### Build Steps
+- Each step:
+  - Is a Docker container
+  - Executes a specific task (command/script)
+
+**Example tasks:**
+- Compile code
+- Run tests
+- Build container image
+
+---
+
+### Important Fields
+
+- **steps**:
+  - Define sequence of build operations
+- **name**:
+  - Specifies container image used for the step
+- **images**:
+  - Defines the output container image
+
+---
+
+## Build Execution
+
+- Source code is mounted in:
+  - `/workspace` directory
+- Artifacts generated by steps:
+  - Stored in `/workspace`
+  - Passed to subsequent steps
+
+---
+
+## Artifact Registry Integration
+
+- Cloud Build automatically:
+  - Pushes container images to **Artifact Registry**
+
+**Capabilities:**
+- View build history
+- Manage container images
+- Track versions
+
+---
+
+## Notifications
+
+- Cloud Build can send build status updates via **Pub/Sub**
+- Enables:
+  - Automation based on build results
+  - Integration with other services
+
+---
+
+## Summary
+- Containers provide a lightweight, portable, and efficient alternative to VMs
+- Enable consistent application behavior across environments
+- Cloud Build automates container creation and deployment workflows
+- Artifact Registry stores and manages container images
+- Together, these tools support modern, scalable application development on Google Cloud
+
+
+
+# Compute Options for Your Application (Google Cloud)
+
+## Overview
+- Google Cloud provides multiple **compute options** to run applications
+- Choice depends on:
+  - Required level of infrastructure control
+  - Operational complexity you are willing to manage
+
+**Key trade-off:**
+- More control → More operational burden  
+- Less control → More automation and simplicity
+
+---
+
+## Flexibility Across Platforms
+- Applications using **cloud client libraries** can:
+  - Move between platforms with minimal changes
+- Enables flexibility in choosing or switching compute options
+
+---
+
+## Main Compute Options
+
+### 1. Compute Engine (Virtual Machines)
+
+#### Overview
+- Provides **Virtual Machines (VMs)** similar to traditional servers
+- Runs on Google Cloud infrastructure
+
+#### Characteristics
+- High flexibility
+- Full control over:
+  - Operating system
+  - Software configuration
+  - Environment setup
+
+#### Use Cases
+- Lift-and-shift workloads
+- Legacy applications
+- Custom environments requiring full control
+
+---
+
+### 2. Google Kubernetes Engine (GKE)
+
+#### Overview
+- Managed service for running **containerized applications**
+- Uses Kubernetes to orchestrate containers
+
+#### How it Works
+- Creates a **cluster of virtual machines**
+- Runs containers across the cluster
+
+#### Features
+- Automated:
+  - Scaling
+  - Security management
+- Reduces operational overhead compared to managing Kubernetes manually
+
+#### Use Cases
+- Complex containerized applications
+- Microservices architectures
+- Applications requiring orchestration and scalability
+
+---
+
+### 3. Cloud Run
+
+#### Overview
+- Fully managed **serverless platform** for containerized applications
+
+#### Characteristics
+- No infrastructure management required
+- Automatically scales:
+  - Up and down
+  - Even to zero when not in use
+
+#### Benefits
+- Pay only when code is running
+- Fast and automatic scaling
+- Simplified deployment
+
+#### Additional Capability
+- Can build and manage containers from source code
+
+#### Use Cases
+- Stateless applications
+- APIs and web services
+- Event-driven workloads
+
+---
+
+## Choosing the Right Compute Option
+
+| Platform        | Control Level | Operational Effort | Best For |
+|----------------|--------------|-------------------|----------|
+| Compute Engine | High         | High              | Full control, legacy apps |
+| GKE            | Medium       | Medium            | Container orchestration, microservices |
+| Cloud Run      | Low          | Low               | Serverless, simple deployments |
+
+---
+
+## Summary
+- Google Cloud offers flexible compute options:
+  - **Compute Engine** → maximum control
+  - **GKE** → container orchestration with managed infrastructure
+  - **Cloud Run** → fully managed serverless containers
+- The right choice depends on:
+  - Control vs simplicity
+  - Application architecture
+  - Operational requirements
+ 
+
+# Google Kubernetes Engine (GKE)
+
+## Overview
+- **Kubernetes** is an open-source platform for:
+  - Deploying
+  - Scaling
+  - Operating containerized applications
+- Originally developed at Google, now maintained by the Cloud Native Computing Foundation (CNCF)
+
+- **Google Kubernetes Engine (GKE)** is a **managed Kubernetes service** on Google Cloud
+- Simplifies deploying and managing containerized applications at scale
+
+---
+
+## Kubernetes Basics
+
+### Cluster Architecture
+- A **Kubernetes cluster** consists of:
+  - **Control Plane**
+  - **Worker Nodes**
+
+#### Control Plane
+- Manages:
+  - Nodes
+  - Pods
+  - Cluster state
+
+#### Nodes
+- Machines (VMs or physical) that run applications
+
+#### Pods
+- Smallest deployable unit
+- Group of one or more containers sharing:
+  - Networking
+  - Storage
+
+---
+
+## What Kubernetes Provides
+
+- Scaling of applications
+- Network abstraction
+- Failover handling
+- Rolling updates
+- Storage orchestration
+- Secret and configuration management
+
+---
+
+## GKE: Managed Kubernetes
+
+### Benefits
+- Eliminates much of the operational complexity
+- Google manages:
+  - Control plane
+  - Monitoring
+  - Availability and reliability
+  - Pod scaling
+  - Node patching and upgrades
+
+---
+
+## GKE Modes
+
+### 1. Standard Mode
+- User manages:
+  - Nodes and node pools
+  - Provisioning and lifecycle
+  - Networking and security configuration
+
+**Best for:**
+- Maximum flexibility and control
+
+---
+
+### 2. Autopilot Mode
+- Fully managed cluster infrastructure
+- Google manages:
+  - Control plane
+  - Nodes
+  - Node pools
+
+**Benefits:**
+- Reduced operational overhead
+- Improved resource utilization
+- Built-in security best practices
+- Blocks unsafe configurations
+
+**Best for:**
+- Simplicity and minimal infrastructure management
+
+---
+
+## Key Features of GKE
+
+### 1. AutoUpgrade
+- Automatically updates clusters to latest stable Kubernetes version
+
+---
+
+### 2. AutoRepair
+- Detects unhealthy nodes
+- Drains workloads safely
+- Recreates nodes automatically
+
+---
+
+### 3. Scalability
+- Supports:
+  - Pod scaling (workloads)
+  - Cluster scaling (nodes)
+
+- **Autoscaling:**
+  - Adds/removes resources based on demand
+
+---
+
+### 4. Monitoring & Logging
+- Integrated with:
+  - Cloud Monitoring
+  - Cloud Logging
+
+---
+
+### 5. Integration with Google Cloud
+
+- **Cloud Build** → build and deploy containers  
+- **Artifact Registry** → store container images  
+- **IAM** → access control  
+- **VPC** → networking  
+- **Cloud Console** → cluster management  
+
+---
+
+## Deployment & Management
+
+### Tools
+- `kubectl` (command-line tool)
+- Google Cloud Console
+
+---
+
+### Best Practice: YAML Manifests
+- Define application configuration declaratively
+
+**Used to define:**
+- Containers
+- Networking
+- Security policies
+- Other Kubernetes resources
+
+---
+
+### Workload Types
+
+#### Deployments (Stateless)
+- Ensures a specified number of pod replicas are running
+
+#### StatefulSets (Stateful)
+- Used when persistent storage is required
+
+---
+
+## Infrastructure Automation
+
+- Automatically provisions:
+  - Persistent disks for storage
+  - Network load balancers
+  - HTTP/HTTPS load balancing via Ingress
+
+---
+
+## Observability
+
+- Integrated with Google Cloud Observability tools
+- Enables:
+  - Monitoring
+  - Troubleshooting
+  - Performance analysis
+
+---
+
+## AI/ML Support
+
+- Supports:
+  - GPUs
+  - TPUs
+
+### Standard Mode
+- Manually configure node pools with GPUs/TPUs
+
+### Autopilot Mode
+- Automatically provisions required resources
+
+---
+
+## Hybrid & Multi-Cloud Support
+
+- Run workloads:
+  - On-premises
+  - In multiple clouds
+
+---
+
+## CI/CD Integration
+
+- Works with:
+  - Cloud Build
+  - Artifact Registry
+  - Cloud Deploy
+
+**Workflow:**
+1. Build container image
+2. Store in registry
+3. Deploy to GKE
+4. Promote across environments
+
+---
+
+## Summary
+- GKE is a managed Kubernetes service for running containerized applications
+- Simplifies cluster management while retaining Kubernetes flexibility
+- Offers two modes:
+  - Standard (more control)
+  - Autopilot (fully managed)
+- Provides built-in:
+  - Scaling
+  - Monitoring
+  - Security
+  - Integration with Google Cloud services
+- Ideal for scalable, production-ready, containerized applications
+
+
+
+
+# Cloud Run
+
+## Overview
+- **Cloud Run** is a **fully managed serverless compute platform**
+- Runs:
+  - Request-driven workloads (HTTP/gRPC)
+  - Event-driven workloads
+- No need to manage servers or infrastructure
+
+---
+
+## Key Characteristics
+
+### Serverless Execution
+- Fully abstracts infrastructure:
+  - Provisioning
+  - Configuration
+  - Management
+
+---
+
+### Automatic Scaling
+- Scales automatically:
+  - Up → when traffic increases
+  - Down to **zero** → when idle
+- Near-instant scaling
+
+---
+
+### Pay-per-Use Pricing
+- Pay only for:
+  - CPU
+  - Memory
+  - Networking
+- Billed per **100 ms**
+- No cost when not in use
+
+---
+
+### GPU Support
+- Supports **1 GPU per instance**
+- Fully managed (no setup required)
+- Scales to zero when idle
+
+**Use cases:**
+- AI inference (LLMs)
+- Video transcoding
+- 3D rendering
+
+---
+
+## Containers & Flexibility
+
+- Deploy **any stateless container**
+- Supports:
+  - Any language
+  - Any framework
+
+### Requirements
+- Container must:
+  - Listen on `0.0.0.0`
+  - Use HTTP/gRPC
+- TLS handled by Cloud Run
+
+---
+
+## Deployment Options
+
+### 1. Container-Based Deployment
+- Deploy container images from:
+  - Artifact Registry
+  - Docker Hub
+
+---
+
+### 2. Source-Based Deployment
+- Deploy using:
+  gcloud run deploy
+
+
+**Process:**
+1. Cloud Build builds container
+2. Buildpacks create image
+3. Image stored in Artifact Registry
+
+**Supported languages:**
+- Python
+- Node.js
+- Go
+- Java
+- Ruby
+- PHP
+- .NET
+
+---
+
+### 3. Functions (Event-Driven)
+- Single-purpose functions
+- Triggered by:
+- Pub/Sub
+- Eventarc
+- HTTP
+
+- Automatically packaged as containers
+
+---
+
+### 4. Continuous Deployment
+- Integrates with GitHub
+- Auto build & deploy on commits
+
+- Can also use:
+- Cloud Build
+- Cloud Deploy
+
+---
+
+## Developer Workflow
+
+### 3 Steps
+1. Write app (handles HTTP requests)
+2. Build container image
+3. Deploy to Cloud Run
+
+**Result:**
+- App gets HTTPS URL
+- Auto scaling and request handling
+
+---
+
+## Build Approaches
+
+### Container-Based
+- Full control over:
+- Build process
+- Dependencies
+
+### Source-Based
+- Simpler
+- Cloud Run:
+- Builds container automatically
+- Uses secure base images
+
+---
+
+## Cloud Run Jobs
+
+### Overview
+- For **non-HTTP workloads**
+- Used for:
+- Batch jobs
+- One-time tasks
+- Scheduled jobs
+
+---
+
+### Features
+- No web server required
+- Triggered by:
+- Workflows
+- Cloud Scheduler
+
+---
+
+### Task Execution
+- Jobs contain:
+- One or multiple tasks
+
+**Tasks:**
+- Run in parallel
+- Have task index
+- Can retry on failure
+- Run container to completion
+
+---
+
+## Use Cases
+
+### Web & APIs
+- Web apps
+- REST APIs
+
+---
+
+### Event Processing
+- Pub/Sub
+- Eventarc triggers
+
+---
+
+### Data Processing
+- Batch processing
+- Pipelines
+
+---
+
+### Microservices
+- Lightweight services
+- Webhooks
+
+---
+
+### ETL
+- Extract, Transform, Load
+- Message processing
+
+---
+
+## Summary
+- Fully managed serverless platform
+- Runs containerized apps
+- Key benefits:
+- No infrastructure management
+- Auto scaling (including zero)
+- Pay-per-use
+- Supports:
+- Containers
+- Source code
+- Functions
+- Jobs
+- Ideal for modern, scalable applications
